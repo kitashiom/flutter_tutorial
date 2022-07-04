@@ -1,3 +1,4 @@
+import 'package:axiaworks_flutter_tutorial/animation/animation_screen.dart';
 import 'package:axiaworks_flutter_tutorial/building/building_layout_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -31,16 +32,31 @@ class MyHomePage extends StatelessWidget {
         title: const Text('Flutter Tutorial'),
       ),
       body: Center(
-        child: ElevatedButton(
-          onPressed: (){
-            Navigator.push(
-              context,
-              MaterialPageRoute<void>(
-                builder: (context) => const BuildingLayoutScreen(),
-              ),
-            );
-          },
-          child: const Text('Tutorial1'),
+        child: Column(
+          children: [
+            ElevatedButton(
+              onPressed: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (context) => const BuildingLayoutScreen(),
+                  ),
+                );
+              },
+              child: const Text('Tutorial1'),
+            ),
+            ElevatedButton(
+              onPressed: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (context) => const AnimationScreen(),
+                  ),
+                );
+              },
+              child: const Text('Tutorial1.1'),
+            ),
+          ],
         ),
       ),
     );
