@@ -111,10 +111,10 @@ class FavoriteWidget extends StatefulWidget {
   const FavoriteWidget({super.key});
 
   @override
-  _FavoriteWidgetState createState() => _FavoriteWidgetState();
+  FavoriteWidgetState createState() => FavoriteWidgetState();
 }
 
-class _FavoriteWidgetState extends State<FavoriteWidget> {
+class FavoriteWidgetState extends State<FavoriteWidget> {
   bool _isFavorited = true;
   int _favoriteCount = 41;
 
