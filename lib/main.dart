@@ -1,5 +1,6 @@
 import 'package:axiaworks_flutter_tutorial/animation/animation_screen.dart';
 import 'package:axiaworks_flutter_tutorial/building/building_layout_screen.dart';
+import 'package:axiaworks_flutter_tutorial/youtube/youtube_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -55,6 +56,17 @@ class MyHomePage extends StatelessWidget {
                 );
               },
               child: const Text('Tutorial1.1'),
+            ),
+            ElevatedButton(
+              onPressed: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (context) => const YoutubeScreen(),
+                  ),
+                );
+              },
+              child: const Text('youtube'),
             ),
           ],
         ),
