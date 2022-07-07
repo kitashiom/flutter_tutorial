@@ -26,6 +26,7 @@ class ResidenceScreen extends StatelessWidget {
     return Scaffold(
       appBar: _buildAppBar(),
       body: _buildBody(context),
+      floatingActionButton: _buildFloatingActionButton(),
       bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
@@ -270,6 +271,25 @@ class ResidenceScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildFloatingActionButton() {
+    return SizedBox(
+      height: 64,
+      width: 64,
+      child: FloatingActionButton.extended(
+        backgroundColor: pointColorGreen,
+        elevation: 3,
+        onPressed: () {},
+        label: Column(
+          children: const [
+            Icon(Icons.search,size: 30,),
+            Text('物件',
+            style: TextStyle(fontSize: 11,fontWeight: FontWeight.bold),),
+          ],
+        ),
       ),
     );
   }
