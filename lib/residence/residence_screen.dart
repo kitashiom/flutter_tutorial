@@ -7,12 +7,16 @@ class ResidenceScreen extends StatelessWidget {
   static const pointColorGreen = Color(0xff34AFA1);
   static const pointColorGrey = Color(0xffC9C9C9);
   static const pointColorRed = Color(0xffFB715A);
+  static const pointColorBeige = Color(0xffFAF8F5);
   static const badgeBackColor = Color(0xffF54741);
   static const SizedBox spaceW4 = SizedBox(
     width: 4,
   );
   static const SizedBox spaceW8 = SizedBox(
     width: 8,
+  );
+  static const SizedBox spaceW16 = SizedBox(
+    width: 16,
   );
   static const SizedBox spaceH4 = SizedBox(
     height: 4,
@@ -50,7 +54,7 @@ class ResidenceScreen extends StatelessWidget {
                   fontSize: 12),
             ),
           ),
-          const SizedBox(width: 8),
+          spaceW8,
           Badge(
             position: BadgePosition.topEnd(top: 1, end: -3),
             badgeColor: badgeBackColor,
@@ -87,7 +91,7 @@ class ResidenceScreen extends StatelessWidget {
   Widget _buildBody(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 8),
-      color: const Color(0xffFAF8F5),
+      color: pointColorBeige,
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -101,6 +105,7 @@ class ResidenceScreen extends StatelessWidget {
     );
   }
 
+  //アイコン＆テキストの行
   Row _detailRow(IconData icon, String text) {
     return Row(
       children: [
@@ -118,6 +123,7 @@ class ResidenceScreen extends StatelessWidget {
     );
   }
 
+  //条件選択セクション
   Widget _residenceSetSection() {
     return Card(
       color: Colors.white,
@@ -125,7 +131,7 @@ class ResidenceScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8),
         child: Column(
           children: [
             Row(
@@ -164,12 +170,12 @@ class ResidenceScreen extends StatelessWidget {
             ),
             Card(
               elevation: 0,
-              color: const Color(0xffFAF8F5),
+              color: pointColorBeige,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8),
                 child: Column(
                   children: [
                     _detailRow(Icons.train, '東京駅・品川駅・川崎駅・横浜駅・目黒駅・恵比寿駅・渋谷駅・'),
@@ -187,6 +193,7 @@ class ResidenceScreen extends StatelessWidget {
     );
   }
 
+  //部屋情報セクション
   Widget _roomDetailSection(BuildContext context) {
     return Card(
       color: Colors.white,
@@ -236,9 +243,7 @@ class ResidenceScreen extends StatelessWidget {
                             Icons.delete,
                             color: pointColorGrey,
                           ),
-                          SizedBox(
-                            width: 16,
-                          ),
+                          spaceW16,
                           Text('興味なし'),
                         ],
                       ),
@@ -258,9 +263,7 @@ class ResidenceScreen extends StatelessWidget {
                             Icons.favorite_border,
                             color: pointColorGrey,
                           ),
-                          SizedBox(
-                            width: 16,
-                          ),
+                          spaceW16,
                           Text('お気に入り'),
                         ],
                       ),
@@ -285,9 +288,14 @@ class ResidenceScreen extends StatelessWidget {
         onPressed: () {},
         label: Column(
           children: const [
-            Icon(Icons.search,size: 30,),
-            Text('物件',
-            style: TextStyle(fontSize: 11,fontWeight: FontWeight.bold),),
+            Icon(
+              Icons.search,
+              size: 30,
+            ),
+            Text(
+              '物件',
+              style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+            ),
           ],
         ),
       ),
