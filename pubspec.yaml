@@ -60,6 +60,7 @@ flutter:
   assets:
     - images/
     - images/youtube_images/
+    - images/residence_images/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

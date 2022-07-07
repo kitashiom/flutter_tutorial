@@ -6,12 +6,26 @@ class ResidenceScreen extends StatelessWidget {
 
   static const pointColorGreen = Color(0xff34AFA1);
   static const pointColorGrey = Color(0xffC9C9C9);
+  static const pointColorRed = Color(0xffFB715A);
   static const badgeBackColor = Color(0xffF54741);
+  static const SizedBox spaceW4 = SizedBox(
+    width: 4,
+  );
+  static const SizedBox spaceW8 = SizedBox(
+    width: 8,
+  );
+  static const SizedBox spaceH4 = SizedBox(
+    height: 4,
+  );
+  static const SizedBox spaceH8 = SizedBox(
+    height: 8,
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
+      body: _buildBody(context),
       bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
@@ -19,6 +33,7 @@ class ResidenceScreen extends StatelessWidget {
   AppBar _buildAppBar() {
     return AppBar(
       backgroundColor: Colors.white,
+      elevation: 3,
       automaticallyImplyLeading: false,
       centerTitle: false,
       title: Row(
@@ -65,6 +80,197 @@ class ResidenceScreen extends StatelessWidget {
           onPressed: () {},
         ),
       ],
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(top: 8),
+      color: const Color(0xffFAF8F5),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            _residenceSetSection(),
+            _roomDetailSection(context),
+            _roomDetailSection(context),
+            _roomDetailSection(context),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Row _detailRow(IconData icon, String text) {
+    return Row(
+      children: [
+        Icon(
+          icon,
+          size: 16,
+          color: const Color(0xff666666),
+        ),
+        spaceW4,
+        Text(
+          text,
+          style: const TextStyle(fontSize: 11),
+        ),
+      ],
+    );
+  }
+
+  Widget _residenceSetSection() {
+    return Card(
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                spaceW8,
+                const Text(
+                  'カウルのおすすめ',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                ),
+                spaceW8,
+                const Text(
+                  '新着３件',
+                  style: TextStyle(
+                      color: pointColorRed,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12),
+                ),
+                const Spacer(),
+                const Text(
+                  '編集',
+                  style: TextStyle(color: pointColorGreen, fontSize: 12),
+                ),
+                SizedBox(
+                  height: 30,
+                  width: 30,
+                  child: IconButton(
+                      onPressed: () {},
+                      padding: EdgeInsets.zero,
+                      icon: const Icon(
+                        Icons.edit,
+                        color: pointColorGreen,
+                        size: 25,
+                      )),
+                ),
+              ],
+            ),
+            Card(
+              elevation: 0,
+              color: const Color(0xffFAF8F5),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    _detailRow(Icons.train, '東京駅・品川駅・川崎駅・横浜駅・目黒駅・恵比寿駅・渋谷駅・'),
+                    spaceH4,
+                    _detailRow(Icons.paid, '下限なし 〜 2,000万円'),
+                    spaceH4,
+                    _detailRow(Icons.info_outline, '1R 〜 4LDK / 10㎡以上 / 徒歩20分'),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _roomDetailSection(BuildContext context) {
+    return Card(
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Image.asset('images/residence_images/residence_image.png'),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Rising place川崎',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const Text(
+                  '2,000万円',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: pointColorRed),
+                ),
+                spaceH4,
+                _detailRow(Icons.train, '京急本線 京急川崎駅 より 徒歩9分'),
+                spaceH4,
+                _detailRow(Icons.dashboard, '1K / 21.24㎡ 南西向き'),
+                spaceH4,
+                _detailRow(Icons.business, '2階 / 15階建 築5年'),
+                spaceH8,
+                Row(
+                  children: [
+                    Container(
+                      height: 40,
+                      width: (MediaQuery.of(context).size.width - 48) / 2,
+                      padding: const EdgeInsets.only(left: 16),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: pointColorGrey),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        children: const [
+                          Icon(
+                            Icons.delete,
+                            color: pointColorGrey,
+                          ),
+                          SizedBox(
+                            width: 16,
+                          ),
+                          Text('興味なし'),
+                        ],
+                      ),
+                    ),
+                    spaceW8,
+                    Container(
+                      height: 40,
+                      width: (MediaQuery.of(context).size.width - 48) / 2,
+                      padding: const EdgeInsets.only(left: 16),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: pointColorGrey),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        children: const [
+                          Icon(
+                            Icons.favorite_border,
+                            color: pointColorGrey,
+                          ),
+                          SizedBox(
+                            width: 16,
+                          ),
+                          Text('お気に入り'),
+                        ],
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
