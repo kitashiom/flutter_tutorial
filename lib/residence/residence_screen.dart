@@ -228,11 +228,15 @@ class ResidenceScreen extends StatelessWidget {
                 _detailRow(Icons.business, '2階 / 15階建 築5年'),
                 spaceH8,
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      height: 40,
-                      width: (MediaQuery.of(context).size.width - 48) / 2,
-                      padding: const EdgeInsets.only(left: 16),
+                      padding: const EdgeInsets.fromLTRB(
+                        16,
+                        8,
+                        40,
+                        8,
+                      ),
                       decoration: BoxDecoration(
                         border: Border.all(color: pointColorGrey),
                         borderRadius: BorderRadius.circular(10),
@@ -250,9 +254,12 @@ class ResidenceScreen extends StatelessWidget {
                     ),
                     spaceW8,
                     Container(
-                      height: 40,
-                      width: (MediaQuery.of(context).size.width - 48) / 2,
-                      padding: const EdgeInsets.only(left: 16),
+                      padding: const EdgeInsets.fromLTRB(
+                        16,
+                        8,
+                        40,
+                        8,
+                      ),
                       decoration: BoxDecoration(
                         border: Border.all(color: pointColorGrey),
                         borderRadius: BorderRadius.circular(10),
@@ -269,7 +276,7 @@ class ResidenceScreen extends StatelessWidget {
                       ),
                     ),
                   ],
-                )
+                ),
               ],
             ),
           ),
