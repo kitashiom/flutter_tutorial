@@ -46,6 +46,7 @@ class MercariScreen extends StatelessWidget {
                   const Text(
                     '出品へのショートカット',
                     style: TextStyle(
+                      fontSize: 13,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -240,7 +241,6 @@ class MercariScreen extends StatelessWidget {
       selectedFontSize: 10,
       unselectedFontSize: 10,
       backgroundColor: Colors.white,
-      elevation: 1,
     );
   }
 }
