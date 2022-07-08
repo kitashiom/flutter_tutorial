@@ -11,6 +11,7 @@ class MercariScreen extends StatelessWidget {
     return Scaffold(
       appBar: _buildAppbar(),
       body: _buildBody(context),
+      floatingActionButton: _buildFloatingActionButton(),
       bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
@@ -216,6 +217,34 @@ class MercariScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildFloatingActionButton() {
+    return SizedBox(
+      height: 64,
+      width: 64,
+      child: FloatingActionButton.extended(
+        backgroundColor: colorRed,
+        elevation: 3,
+        onPressed: () {},
+        label: Column(
+          children: const [
+            Icon(
+              Icons.camera_alt,
+              size: 24,
+            ),
+            Text(
+              '出品',
+              style: TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
