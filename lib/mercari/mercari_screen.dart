@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class MercariScreen extends StatelessWidget {
   const MercariScreen({super.key});
 
-  static const Color colorBlack = Color(0xff222222);
   static const Color colorRed = Color(0xffE3463D);
 
   @override
@@ -86,7 +85,7 @@ class MercariScreen extends StatelessWidget {
                             Text(
                               '使わないモノを出品してみよう！',
                               style:
-                                  TextStyle(fontSize: 12, color: Colors.grey),
+                                  TextStyle(fontSize: 11, color: Colors.grey),
                             ),
                           ],
                         ),
@@ -265,8 +264,8 @@ class MercariScreen extends StatelessWidget {
             icon: Icon(Icons.person_outlined), label: 'マイページ'),
       ],
       type: BottomNavigationBarType.fixed,
-      selectedItemColor: colorBlack,
-      unselectedItemColor: colorBlack,
+      selectedItemColor: Colors.black,
+      unselectedItemColor: Colors.black,
       selectedFontSize: 10,
       unselectedFontSize: 10,
       backgroundColor: Colors.white,
