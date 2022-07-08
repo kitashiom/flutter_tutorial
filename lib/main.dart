@@ -24,11 +24,12 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key,}) : super(key: key);
+  const MyHomePage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter Tutorial'),
@@ -37,7 +38,7 @@ class MyHomePage extends StatelessWidget {
         child: Column(
           children: [
             ElevatedButton(
-              onPressed: (){
+              onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute<void>(
@@ -48,7 +49,7 @@ class MyHomePage extends StatelessWidget {
               child: const Text('Tutorial1'),
             ),
             ElevatedButton(
-              onPressed: (){
+              onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute<void>(
@@ -59,7 +60,7 @@ class MyHomePage extends StatelessWidget {
               child: const Text('Tutorial1.1'),
             ),
             ElevatedButton(
-              onPressed: (){
+              onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute<void>(
