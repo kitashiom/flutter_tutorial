@@ -5,6 +5,21 @@ class MercariScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: _buildAppbar(),
+    );
   }
+}
+
+AppBar _buildAppbar() {
+  return AppBar(
+    backgroundColor: Colors.white,
+    automaticallyImplyLeading: false,
+    elevation: 1,
+    title: const Text(
+      '出品',
+      style: TextStyle(
+          fontSize: 17, color: Colors.black, fontWeight: FontWeight.bold),
+    ),
+  );
 }
