@@ -1,5 +1,23 @@
 import 'package:flutter/material.dart';
 
+class ItemInfo {
+  ItemInfo({
+    required this.imagePath,
+    required this.title,
+    required this.price,
+    required this.access,
+    required this.area,
+    required this.floor,
+  });
+
+  final String imagePath;
+  final String title;
+  final String price;
+  final String access;
+  final String area;
+  final String floor;
+}
+
 class MercariScreen extends StatelessWidget {
   const MercariScreen({super.key});
 
