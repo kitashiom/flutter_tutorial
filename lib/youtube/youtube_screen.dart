@@ -15,9 +15,25 @@ class MovieInfo {
 }
 
 class YoutubeScreen extends StatelessWidget {
-  const YoutubeScreen({super.key});
+  YoutubeScreen({super.key});
 
   static const Color backgroundBlackColor = Color(0xff2B272C);
+
+  final List<MovieInfo> _dummyMovieData = [
+    MovieInfo(
+        imagePath:
+            'http://i.ytimg.com/vi/by4SYYWlhEs/hq720.jpg?sqp=-…AFwAcABBg==&rs=AOn4CLByo0DsmXI_XPNDk4sl89hd-mAb7Q',
+        iconPath:
+            'http://yt3.ggpht.com/ytc/AKedOLQlab7SciC0zKOTNvVomQGmkQpZIr8yRarFZ4HtZw=s88-c-k-c0x00ffffff-no-rj',
+        title: '夜に駆ける',
+        subtitle: 'Ayase / YOASOBI・1.8億回視聴・2年前'),
+    MovieInfo(
+        imagePath:
+            'http://i.ytimg.com/vi/1tk1pqwrOys/hqdefault.jpg?s…AFwAcABBg==&rs=AOn4CLBYpBZ-dpl7okRTRuaWWLt_3xpdAQ',
+        iconPath: '',
+        title: '廻廻奇譚 - Eve MV',
+        subtitle: 'E ve・2.5億回視聴・1年前'),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +118,6 @@ class YoutubeScreen extends StatelessWidget {
       _categoryButton(context, Icons.emoji_events, 'スポーツ',
           const Color(0xff055464), const Color(0xff0D9CC0)),
     ];
-    List<Widget> movieItemList = [movieItem(), movieItem(), movieItem()];
 
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -140,10 +155,15 @@ class YoutubeScreen extends StatelessWidget {
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                   ),
-                  ListView(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: movieItemList),
+                  ListView.builder(
+                    itemCount: _dummyMovieData.length,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final item = _dummyMovieData[index];
+                      return movieItem(context, item);
+                    },
+                  ),
                 ],
               ),
             ),
@@ -181,33 +201,38 @@ class YoutubeScreen extends StatelessWidget {
     );
   }
 
-  Widget movieItem() {
+  Widget movieItem(BuildContext context, MovieInfo movieInfo) {
     return Column(
       children: [
-        Image.asset('images/youtube_images/movie_image.png'),
+        Image.network(
+          movieInfo.imagePath,
+          errorBuilder:
+              (BuildContext context, Object exception, StackTrace? stackTrace) {
+            return const Text('😢');
+          },
+        ),
         Padding(
           padding: const EdgeInsets.fromLTRB(8, 8, 0, 24),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const CircleAvatar(
+              CircleAvatar(
                 radius: 20,
-                backgroundImage:
-                    AssetImage('images/youtube_images/arashi_logo.jpeg'),
+                backgroundImage: NetworkImage(movieInfo.iconPath),
               ),
               const SizedBox(width: 8),
               Flexible(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
-                      '"This is ARASHI LIVE 2020.12.31" Digest Movie',
+                      movieInfo.title,
                       maxLines: 2,
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                     ),
                     Text(
-                      'ARASHI・127万回視聴・1日前',
-                      style: TextStyle(color: Colors.grey),
+                      movieInfo.subtitle,
+                      style: const TextStyle(color: Colors.grey),
                     ),
                   ],
                 ),
