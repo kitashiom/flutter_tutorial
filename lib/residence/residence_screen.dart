@@ -20,7 +20,7 @@ class RoomInfo {
 }
 
 class ResidenceScreen extends StatelessWidget {
-  const ResidenceScreen({super.key});
+  ResidenceScreen({super.key});
 
   static const pointColorGreen = Color(0xff34AFA1);
   static const pointColorGrey = Color(0xffC9C9C9);
@@ -42,6 +42,33 @@ class ResidenceScreen extends StatelessWidget {
   static const SizedBox spaceH8 = SizedBox(
     height: 8,
   );
+
+  final List<RoomInfo> _dummyRoomData = [
+    RoomInfo(
+      imagePath: 'images/residence_images/residence_image.png',
+      title: 'Rising place 川崎',
+      price: '2,000万円',
+      access: '京急本線 京急川崎駅 より 徒歩9分',
+      area: '1K / 21.24㎡ 南西向き',
+      floor: '2階 / 15階建 築5年',
+    ),
+    RoomInfo(
+      imagePath: 'images/residence_images/residence_image.png',
+      title: 'Rising place 川崎',
+      price: '2,000万円',
+      access: '京急本線 京急川崎駅 より 徒歩9分',
+      area: '1K / 21.24㎡ 南西向き',
+      floor: '2階 / 15階建 築5年',
+    ),
+    RoomInfo(
+      imagePath: 'images/residence_images/residence_image.png',
+      title: 'Rising place 川崎',
+      price: '2,000万円',
+      access: '京急本線 京急川崎駅 より 徒歩9分',
+      area: '1K / 21.24㎡ 南西向き',
+      floor: '2階 / 15階建 築5年',
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -67,9 +94,10 @@ class ResidenceScreen extends StatelessWidget {
             label: Text(
               'カウルのおすすめ',
               style: TextStyle(
-                  color: pointColorGreen,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12),
+                color: pointColorGreen,
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
+              ),
             ),
           ),
           spaceW8,
@@ -114,9 +142,15 @@ class ResidenceScreen extends StatelessWidget {
         child: Column(
           children: [
             _residenceSetSection(),
-            _roomDetailSection(context),
-            _roomDetailSection(context),
-            _roomDetailSection(context),
+            ListView.builder(
+              itemCount: _dummyRoomData.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                final item = _dummyRoomData[index];
+                return _roomDetailSection(context, item);
+              },
+            ),
           ],
         ),
       ),
@@ -212,7 +246,7 @@ class ResidenceScreen extends StatelessWidget {
   }
 
   //部屋情報セクション
-  Widget _roomDetailSection(BuildContext context) {
+  Widget _roomDetailSection(BuildContext context, RoomInfo roomInfo) {
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(
@@ -221,29 +255,30 @@ class ResidenceScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset('images/residence_images/residence_image.png'),
+          Image.asset(roomInfo.imagePath),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Rising place川崎',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                Text(
+                  roomInfo.title,
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                const Text(
-                  '2,000万円',
-                  style: TextStyle(
+                Text(
+                  roomInfo.price,
+                  style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: pointColorRed),
                 ),
                 spaceH4,
-                _detailRow(Icons.train, '京急本線 京急川崎駅 より 徒歩9分'),
+                _detailRow(Icons.train, roomInfo.access),
                 spaceH4,
-                _detailRow(Icons.dashboard, '1K / 21.24㎡ 南西向き'),
+                _detailRow(Icons.dashboard, roomInfo.area),
                 spaceH4,
-                _detailRow(Icons.business, '2階 / 15階建 築5年'),
+                _detailRow(Icons.business, roomInfo.floor),
                 spaceH8,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
