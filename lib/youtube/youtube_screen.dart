@@ -169,7 +169,7 @@ class YoutubeScreen extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       final item = _dummyMovieData[index];
-                      return movieItem(context, item);
+                      return _movieItem(context, item);
                     },
                   ),
                 ],
@@ -209,7 +209,7 @@ class YoutubeScreen extends StatelessWidget {
     );
   }
 
-  Widget movieItem(BuildContext context, MovieInfo movieInfo) {
+  Widget _movieItem(BuildContext context, MovieInfo movieInfo) {
     return Column(
       children: [
         Image.network(
@@ -218,7 +218,7 @@ class YoutubeScreen extends StatelessWidget {
           fit: BoxFit.cover,
           errorBuilder:
               (BuildContext context, Object exception, StackTrace? stackTrace) {
-            return const Text('😢');
+            return const Text('Error');
           },
         ),
         Padding(
@@ -234,7 +234,7 @@ class YoutubeScreen extends StatelessWidget {
                   width: 33,
                   errorBuilder: (BuildContext context, Object exception,
                       StackTrace? stackTrace) {
-                    return const Text('😢');
+                    return const Text('Error');
                   },
                 ),
               ),
