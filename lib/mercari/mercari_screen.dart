@@ -5,23 +5,47 @@ class ItemInfo {
     required this.imagePath,
     required this.title,
     required this.price,
-    required this.access,
-    required this.area,
-    required this.floor,
+    required this.peopleNumber,
   });
 
   final String imagePath;
   final String title;
   final String price;
-  final String access;
-  final String area;
-  final String floor;
+  final int peopleNumber;
 }
 
 class MercariScreen extends StatelessWidget {
-  const MercariScreen({super.key});
+  MercariScreen({super.key});
 
-  static const Color colorRed = Color(0xffE3463D);
+  static const Color red = Color(0xffE3463D);
+  static const Color grey = Color(0xffEFEFEF);
+
+  final List<ItemInfo> _dummyItemData = [
+    ItemInfo(
+      imagePath: 'images/mercari_images/item_image.png',
+      title: 'NikonD5500',
+      price: '51,000',
+      peopleNumber: 446,
+    ),
+    ItemInfo(
+      imagePath: 'images/mercari_images/item2_image.png',
+      title: '早い者勝ち！【新品】ERA AAAAA',
+      price: '15,700',
+      peopleNumber: 177,
+    ),
+    ItemInfo(
+      imagePath: 'images/mercari_images/item_image.png',
+      title: 'NikonD5500',
+      price: '51,000',
+      peopleNumber: 446,
+    ),
+    ItemInfo(
+      imagePath: 'images/mercari_images/item2_image.png',
+      title: '早い者勝ち！【新品】ERA AAAAA',
+      price: '15,700',
+      peopleNumber: 177,
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +72,7 @@ class MercariScreen extends StatelessWidget {
 
   Widget _buildBody(BuildContext context) {
     return Container(
-      color: const Color(0xffEFEFEF),
+      color: grey,
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -114,17 +138,15 @@ class MercariScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 16,
+                  ListView.builder(
+                    itemCount: _dummyItemData.length,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final item = _dummyItemData[index];
+                      return _itemSection(item);
+                    },
                   ),
-                  itemSection('images/mercari_images/item_image.png',
-                      'NikonD5500', '51,000', 446),
-                  itemSection('images/mercari_images/item2_image.png',
-                      '早い者勝ち！【新品】ERA AAAAA', '15,700', 177),
-                  itemSection('images/mercari_images/item_image.png',
-                      'NikonD5500', '51,000', 446),
-                  itemSection('images/mercari_images/item2_image.png',
-                      '早い者勝ち！【新品】ERA AAAAA', '15,700', 177),
                 ],
               ),
             )
@@ -166,8 +188,7 @@ class MercariScreen extends StatelessWidget {
   }
 
   //出品アイテムセクション
-  Widget itemSection(
-      String imageURL, String title, String price, int peopleNumber) {
+  Widget _itemSection(ItemInfo itemInfo) {
     return Container(
       padding: const EdgeInsets.fromLTRB(0, 16, 16, 16),
       decoration: const BoxDecoration(
@@ -178,7 +199,7 @@ class MercariScreen extends StatelessWidget {
       child: Row(
         children: [
           Image.asset(
-            imageURL,
+            itemInfo.imagePath,
             height: 70,
             width: 70,
           ),
@@ -190,7 +211,7 @@ class MercariScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  title,
+                  itemInfo.title,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 14),
@@ -199,7 +220,7 @@ class MercariScreen extends StatelessWidget {
                   height: 4,
                 ),
                 Text(
-                  '¥$price',
+                  '¥${itemInfo.price}',
                   style: const TextStyle(
                       fontWeight: FontWeight.w500, fontSize: 16),
                 ),
@@ -214,7 +235,7 @@ class MercariScreen extends StatelessWidget {
                       size: 18,
                     ),
                     Text(
-                      ' $peopleNumber人が探しています',
+                      ' ${itemInfo.peopleNumber}人が探しています',
                       style: const TextStyle(color: Colors.grey, fontSize: 12),
                     ),
                   ],
@@ -226,7 +247,7 @@ class MercariScreen extends StatelessWidget {
             onPressed: () {},
             style: ElevatedButton.styleFrom(
                 elevation: 0,
-                primary: colorRed,
+                primary: red,
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 0)),
             child: const Text(
               '出品する',
@@ -243,7 +264,7 @@ class MercariScreen extends StatelessWidget {
       height: 64,
       width: 64,
       child: FloatingActionButton.extended(
-        backgroundColor: colorRed,
+        backgroundColor: red,
         elevation: 3,
         onPressed: () {},
         label: Column(

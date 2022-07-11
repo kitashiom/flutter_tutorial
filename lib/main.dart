@@ -87,7 +87,7 @@ class MyHomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (context) => const MercariScreen(),
+                    builder: (context) => MercariScreen(),
                   ),
                 );
               },
