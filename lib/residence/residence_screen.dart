@@ -1,6 +1,24 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 
+class RoomInfo {
+  RoomInfo({
+    required this.imagePath,
+    required this.title,
+    required this.price,
+    required this.access,
+    required this.area,
+    required this.floor,
+  });
+
+  final String imagePath;
+  final String title;
+  final String price;
+  final String access;
+  final String area;
+  final String floor;
+}
+
 class ResidenceScreen extends StatelessWidget {
   const ResidenceScreen({super.key});
 
