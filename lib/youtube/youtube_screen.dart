@@ -22,17 +22,25 @@ class YoutubeScreen extends StatelessWidget {
   final List<MovieInfo> _dummyMovieData = [
     MovieInfo(
         imagePath:
-            'http://i.ytimg.com/vi/by4SYYWlhEs/hq720.jpg?sqp=-…AFwAcABBg==&rs=AOn4CLByo0DsmXI_XPNDk4sl89hd-mAb7Q',
+            'https://i.ytimg.com/vi/n-4TmhGYxro/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAN2mFESszLVng1WdCP4568QefY9Q',
         iconPath:
-            'http://yt3.ggpht.com/ytc/AKedOLQlab7SciC0zKOTNvVomQGmkQpZIr8yRarFZ4HtZw=s88-c-k-c0x00ffffff-no-rj',
-        title: '夜に駆ける',
-        subtitle: 'Ayase / YOASOBI・1.8億回視聴・2年前'),
+            'https://yt3.ggpht.com/ytc/AKedOLRlIFgNc8dgyFUddgf6RRJB3_uFcaDXfNXjzd93=s176-c-k-c0x00ffffff-no-rj',
+        title: 'お互いかまって欲しい愛犬と弟のお留守番',
+        subtitle: 'テディベアドッグのモコ・12万 回視聴・6 か月前'),
     MovieInfo(
         imagePath:
-            'http://i.ytimg.com/vi/1tk1pqwrOys/hqdefault.jpg?s…AFwAcABBg==&rs=AOn4CLBYpBZ-dpl7okRTRuaWWLt_3xpdAQ',
-        iconPath: '',
-        title: '廻廻奇譚 - Eve MV',
-        subtitle: 'E ve・2.5億回視聴・1年前'),
+            'https://i.ytimg.com/vi/dEw9PZ15bxE/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAaWhQAGs86EmznsyZwUHM355zcCw',
+        iconPath:
+            'https://yt3.ggpht.com/ytc/AKedOLRlIFgNc8dgyFUddgf6RRJB3_uFcaDXfNXjzd93=s176-c-k-c0x00ffffff-no-rj',
+        title: 'ペットヒーターが気持ち良すぎて動けなくなったトイプードル',
+        subtitle: 'テディベアドッグのモコ・17万 回視聴・6 か月前'),
+    MovieInfo(
+        imagePath:
+            'https://i.ytimg.com/vi/nIFUSwCeXQ8/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDgErjaYl4qMEeL36sFB2U-a5U15Q',
+        iconPath:
+            'https://yt3.ggpht.com/lMx8PDGh_Z6mucUOpOBC_ALYQvXwQmozcQzK_lFOOt6prXz_eH1FccFBwNn4pjqyX5zTC6oD-Q=s176-c-k-c0x00ffffff-no-rj',
+        title: '初めてもち様の弟妹たちにお会いしてきました。',
+        subtitle: 'もちまる日記・1,08万 回視聴・1 日前'),
   ];
 
   @override
@@ -183,8 +191,8 @@ class YoutubeScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         gradient: LinearGradient(
           colors: [
-            colorStart, //始まりの色
-            colorEnd, //終わりの色
+            colorStart,
+            colorEnd,
           ],
         ),
       ),
@@ -206,6 +214,8 @@ class YoutubeScreen extends StatelessWidget {
       children: [
         Image.network(
           movieInfo.imagePath,
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.cover,
           errorBuilder:
               (BuildContext context, Object exception, StackTrace? stackTrace) {
             return const Text('😢');
@@ -216,9 +226,17 @@ class YoutubeScreen extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CircleAvatar(
-                radius: 20,
-                backgroundImage: NetworkImage(movieInfo.iconPath),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: Image.network(
+                  movieInfo.iconPath,
+                  height: 33,
+                  width: 33,
+                  errorBuilder: (BuildContext context, Object exception,
+                      StackTrace? stackTrace) {
+                    return const Text('😢');
+                  },
+                ),
               ),
               const SizedBox(width: 8),
               Flexible(
