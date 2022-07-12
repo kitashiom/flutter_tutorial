@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AsyncScreen extends StatefulWidget {
@@ -96,6 +97,10 @@ class _AsyncScreen extends State<AsyncScreen> {
                     decoration: const InputDecoration(
                       labelText: '年齢',
                     ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
                     onChanged: (value) {
                       _age = value;
                     },
