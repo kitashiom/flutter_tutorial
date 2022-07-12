@@ -17,6 +17,12 @@ class AsyncScreen extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
+        elevation: 3,
+        child: const Icon(Icons.add),
+        onPressed: () {},
+      ),
     );
   }
 }
