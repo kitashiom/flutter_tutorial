@@ -21,19 +21,13 @@ class _AsyncScreen extends State<AsyncScreen> {
     _checkData();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: _buildBody(),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.green,
-        elevation: 3,
-        child: const Icon(Icons.add),
-        onPressed: () {
-          _showDialog(context);
-        },
-      ),
-    );
+  Future<void> _checkData() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _name = prefs.getString('name') ?? '未設定';
+      _age = prefs.getString('age') ?? '未設定';
+      _birthday = prefs.getString('birthday') ?? '未設定';
+    });
   }
 
   Future<void> _setData() async {
@@ -46,24 +40,25 @@ class _AsyncScreen extends State<AsyncScreen> {
     });
   }
 
-  Future<void> _checkData() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _name = prefs.getString('name') ?? '未設定';
-      _age = prefs.getString('age') ?? '未設定';
-      _birthday = prefs.getString('birthday') ?? '未設定';
-    });
-  }
-
-  Widget _buildBody() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('名前： $_name'),
-          Text('年齢： $_age'),
-          Text('誕生日： $_birthday'),
-        ],
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('名前： $_name'),
+            Text('年齢： $_age'),
+            Text('誕生日： $_birthday'),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
+        child: const Icon(Icons.add),
+        onPressed: () {
+          _showDialog(context);
+        },
       ),
     );
   }
@@ -82,6 +77,7 @@ class _AsyncScreen extends State<AsyncScreen> {
                   TextFormField(
                     decoration: const InputDecoration(
                       labelText: '名前',
+                      hintText: '花子',
                     ),
                     onChanged: (value) {
                       _name = value;
@@ -96,7 +92,9 @@ class _AsyncScreen extends State<AsyncScreen> {
                   TextFormField(
                     decoration: const InputDecoration(
                       labelText: '年齢',
+                      hintText: '20',
                     ),
+                    //数値入力制限
                     keyboardType: TextInputType.number,
                     inputFormatters: <TextInputFormatter>[
                       FilteringTextInputFormatter.digitsOnly
@@ -114,6 +112,7 @@ class _AsyncScreen extends State<AsyncScreen> {
                   TextFormField(
                     decoration: const InputDecoration(
                       labelText: '誕生日',
+                      hintText: '1/1',
                     ),
                     onChanged: (value) {
                       _birthday = value;
