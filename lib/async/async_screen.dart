@@ -5,6 +5,18 @@ class AsyncScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: const [
+            Text('名前： kitashio'),
+            Text('年齢： 21'),
+            Text('誕生日： 1/6'),
+          ],
+        ),
+      ),
+    );
   }
 }
