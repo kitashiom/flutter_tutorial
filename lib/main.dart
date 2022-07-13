@@ -81,7 +81,7 @@ class MyHomePage extends StatelessWidget {
                   ),
                 );
               },
-              child: const Text('Residence'),
+              child: const Text('residence'),
             ),
             ElevatedButton(
               onPressed: () {
@@ -99,7 +99,7 @@ class MyHomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (context) => AsyncScreen(),
+                    builder: (context) => const AsyncScreen(),
                   ),
                 );
               },
