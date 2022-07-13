@@ -6,6 +6,29 @@ class QiitaTopScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('QiitaClientSample'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text('Flutter'),
+            ),
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text('android'),
+            ),
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text('ios'),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
