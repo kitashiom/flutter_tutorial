@@ -30,19 +30,19 @@ class ResidenceScreen extends StatelessWidget {
   static const lightGrey = Color(0xffE9EFEE);
   static const lightRed = Color(0xffFB715A);
   static const lightBlack = Color(0xff666666);
-  static const SizedBox spaceW4 = SizedBox(
+  static const spaceW4 = SizedBox(
     width: 4,
   );
-  static const SizedBox spaceW8 = SizedBox(
+  static const spaceW8 = SizedBox(
     width: 8,
   );
-  static const SizedBox spaceW16 = SizedBox(
+  static const spaceW16 = SizedBox(
     width: 16,
   );
-  static const SizedBox spaceH4 = SizedBox(
+  static const spaceH4 = SizedBox(
     height: 4,
   );
-  static const SizedBox spaceH8 = SizedBox(
+  static const spaceH8 = SizedBox(
     height: 8,
   );
 
@@ -188,7 +188,7 @@ class ResidenceScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8),
         child: Column(
           children: [
             Row(
