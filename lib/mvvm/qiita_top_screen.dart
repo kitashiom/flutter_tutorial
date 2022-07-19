@@ -10,9 +10,7 @@ class QiitaTopScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(qiitaClientStateNotifier);
 
-    return
-        // 戻るボタンの挙動
-        WillPopScope(
+    return WillPopScope(
       onWillPop: state.isReadyData
           ? () {
               ref.read(qiitaClientStateNotifier.notifier).onBackHome();
