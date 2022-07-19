@@ -19,6 +19,18 @@ class MercariScreen extends StatelessWidget {
 
   static const Color red = Color(0xffE3463D);
   static const Color grey = Color(0xffEFEFEF);
+  static const spaceH24 = SizedBox(
+    height: 24,
+  );
+  static const spaceH16 = SizedBox(
+    height: 16,
+  );
+  static const spaceH8 = SizedBox(
+    height: 8,
+  );
+  static const spaceH4 = SizedBox(
+    height: 4,
+  );
 
   final List<ItemInfo> _dummyItemData = [
     ItemInfo(
@@ -65,7 +77,10 @@ class MercariScreen extends StatelessWidget {
       title: const Text(
         '出品',
         style: TextStyle(
-            fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+          fontSize: 18,
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
@@ -82,9 +97,7 @@ class MercariScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Image.asset('images/mercari_images/guide_image.png'),
-                  const SizedBox(
-                    height: 24,
-                  ),
+                  spaceH24,
                   const Text(
                     '出品へのショートカット',
                     style: TextStyle(
@@ -92,9 +105,7 @@ class MercariScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(
-                    height: 16,
-                  ),
+                  spaceH16,
                   Row(
                     children: [
                       shortcutButton(Icons.camera_alt_outlined, '写真を撮る'),
@@ -113,7 +124,7 @@ class MercariScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(right: 16),
+                    padding: const EdgeInsets.only(right: 16.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -122,18 +133,24 @@ class MercariScreen extends StatelessWidget {
                           children: const [
                             Text(
                               '売れやすい持ち物',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             Text(
                               '使わないモノを出品してみよう！',
-                              style:
-                                  TextStyle(fontSize: 11, color: Colors.grey),
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: Colors.grey,
+                              ),
                             ),
                           ],
                         ),
                         const Text(
                           'すべて見る ＞',
-                          style: TextStyle(color: Colors.blue),
+                          style: TextStyle(
+                            color: Colors.blue,
+                          ),
                         )
                       ],
                     ),
@@ -171,9 +188,7 @@ class MercariScreen extends StatelessWidget {
               icon,
               size: 30,
             ),
-            const SizedBox(
-              height: 8,
-            ),
+            spaceH8,
             Text(
               text,
               textAlign: TextAlign.center,
@@ -203,9 +218,7 @@ class MercariScreen extends StatelessWidget {
             height: 70,
             width: 70,
           ),
-          const SizedBox(
-            width: 8,
-          ),
+          spaceH8,
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -214,19 +227,19 @@ class MercariScreen extends StatelessWidget {
                   itemInfo.title,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 14),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
                 ),
-                const SizedBox(
-                  height: 4,
-                ),
+                spaceH4,
                 Text(
                   '¥${itemInfo.price}',
                   style: const TextStyle(
-                      fontWeight: FontWeight.w500, fontSize: 16),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                  ),
                 ),
-                const SizedBox(
-                  height: 4,
-                ),
+                spaceH4,
                 Row(
                   children: [
                     const Icon(
@@ -236,7 +249,10 @@ class MercariScreen extends StatelessWidget {
                     ),
                     Text(
                       ' ${itemInfo.peopleNumber}人が探しています',
-                      style: const TextStyle(color: Colors.grey, fontSize: 12),
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 12,
+                      ),
                     ),
                   ],
                 ),
@@ -251,7 +267,10 @@ class MercariScreen extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 0)),
             child: const Text(
               '出品する',
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],
@@ -296,11 +315,21 @@ class MercariScreen extends StatelessWidget {
             ),
             label: 'ホーム'),
         BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_none_outlined), label: 'お知らせ'),
-        BottomNavigationBarItem(icon: Icon(Icons.camera_alt), label: '出品'),
-        BottomNavigationBarItem(icon: Icon(Icons.qr_code), label: 'メルペイ'),
+          icon: Icon(Icons.notifications_none_outlined),
+          label: 'お知らせ',
+        ),
         BottomNavigationBarItem(
-            icon: Icon(Icons.person_outlined), label: 'マイページ'),
+          icon: Icon(Icons.camera_alt),
+          label: '出品',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.qr_code),
+          label: 'メルペイ',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person_outlined),
+          label: 'マイページ',
+        ),
       ],
       type: BottomNavigationBarType.fixed,
       selectedItemColor: Colors.black,
