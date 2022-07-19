@@ -6,10 +6,11 @@ import 'package:axiaworks_flutter_tutorial/mvvm/qiita_top_screen.dart';
 import 'package:axiaworks_flutter_tutorial/residence/residence_screen.dart';
 import 'package:axiaworks_flutter_tutorial/youtube/youtube_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(
+      const ProviderScope(child: MyApp()),
+    );
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
