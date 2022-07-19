@@ -31,7 +31,11 @@ class MercariScreen extends StatelessWidget {
   static const SizedBox spaceH4 = SizedBox(
     height: 4,
   );
+<<<<<<< HEAD
   static const SizedBox spaceW8 = SizedBox(
+=======
+  static const spaceW8 = SizedBox(
+>>>>>>> a27bcfa (調整)
     width: 8,
   );
 
@@ -123,40 +127,37 @@ class MercariScreen extends StatelessWidget {
             Container(
               width: MediaQuery.of(context).size.width,
               color: Colors.white,
-              padding: const EdgeInsets.fromLTRB(16, 16, 0, 16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
-                              '売れやすい持ち物',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            '売れやすい持ち物',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
                             ),
-                            Text(
-                              '使わないモノを出品してみよう！',
-                              style: TextStyle(
-                                fontSize: 11,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const Text(
-                          'すべて見る ＞',
-                          style: TextStyle(
-                            color: Colors.blue,
                           ),
-                        )
-                      ],
-                    ),
+                          Text(
+                            '使わないモノを出品してみよう！',
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Text(
+                        'すべて見る ＞',
+                        style: TextStyle(
+                          color: Colors.blue,
+                        ),
+                      )
+                    ],
                   ),
                   spaceH16,
                   ListView.builder(
@@ -209,7 +210,7 @@ class MercariScreen extends StatelessWidget {
   //出品アイテムセクション
   Widget _itemSection(ItemInfo itemInfo) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(0, 16, 16, 16),
+      padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: const BoxDecoration(
         border: Border(
           top: BorderSide(color: Colors.grey, width: 0.3),
