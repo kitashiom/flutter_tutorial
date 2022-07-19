@@ -65,7 +65,7 @@ class MyHomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (context) => const YoutubeScreen(),
+                    builder: (context) => YoutubeScreen(),
                   ),
                 );
               },
