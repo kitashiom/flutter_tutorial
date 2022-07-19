@@ -24,11 +24,11 @@ class ResidenceScreen extends StatelessWidget {
 
   static const green = Color(0xff34AFA1);
   static const grey = Color(0xffC9C9C9);
-  static const lightGrey = Color(0xffE9EFEE);
-  static const silverWhite = Color(0xffF3F3F3);
   static const red = Color(0xffF54741);
-  static const lightRed = Color(0xffFB715A);
   static const beige = Color(0xffFAF8F5);
+  static const silverWhite = Color(0xffF3F3F3);
+  static const lightGrey = Color(0xffE9EFEE);
+  static const lightRed = Color(0xffFB715A);
   static const lightBlack = Color(0xff666666);
   static const SizedBox spaceW4 = SizedBox(
     width: 4,
