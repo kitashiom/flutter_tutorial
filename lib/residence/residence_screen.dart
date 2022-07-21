@@ -1,26 +1,11 @@
+import 'package:axiaworks_flutter_tutorial/residence/model/residence_item.dart';
+import 'package:axiaworks_flutter_tutorial/residence/residence_client_state_notifier.dart';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RoomInfo {
-  RoomInfo({
-    required this.imagePath,
-    required this.title,
-    required this.price,
-    required this.access,
-    required this.area,
-    required this.floor,
-  });
-
-  final String imagePath;
-  final String title;
-  final String price;
-  final String access;
-  final String area;
-  final String floor;
-}
-
-class ResidenceScreen extends StatelessWidget {
-  ResidenceScreen({super.key});
+class ResidenceScreen extends ConsumerWidget {
+  const ResidenceScreen({super.key});
 
   static const green = Color(0xff34AFA1);
   static const grey = Color(0xffC9C9C9);
@@ -30,54 +15,23 @@ class ResidenceScreen extends StatelessWidget {
   static const lightGrey = Color(0xffE9EFEE);
   static const lightRed = Color(0xffFB715A);
   static const lightBlack = Color(0xff666666);
-  static const SizedBox spaceW4 = SizedBox(
-    width: 4,
-  );
-  static const SizedBox spaceW8 = SizedBox(
-    width: 8,
-  );
-  static const SizedBox spaceW16 = SizedBox(
-    width: 16,
-  );
-  static const SizedBox spaceH4 = SizedBox(
-    height: 4,
-  );
-  static const SizedBox spaceH8 = SizedBox(
-    height: 8,
-  );
-
-  final List<RoomInfo> _dummyRoomData = [
-    RoomInfo(
-      imagePath: 'images/residence_images/residence_image.png',
-      title: 'Rising place 川崎',
-      price: '2,000万円',
-      access: '京急本線 京急川崎駅 より 徒歩9分',
-      area: '1K / 21.24㎡ 南西向き',
-      floor: '2階 / 15階建 築5年',
-    ),
-    RoomInfo(
-      imagePath: 'images/residence_images/residence_image.png',
-      title: 'Rising place 川崎',
-      price: '2,000万円',
-      access: '京急本線 京急川崎駅 より 徒歩9分',
-      area: '1K / 21.24㎡ 南西向き',
-      floor: '2階 / 15階建 築5年',
-    ),
-    RoomInfo(
-      imagePath: 'images/residence_images/residence_image.png',
-      title: 'Rising place 川崎',
-      price: '2,000万円',
-      access: '京急本線 京急川崎駅 より 徒歩9分',
-      area: '1K / 21.24㎡ 南西向き',
-      floor: '2階 / 15階建 築5年',
-    ),
-  ];
+  static const spaceW4 = SizedBox(width: 4);
+  static const spaceW8 = SizedBox(width: 8);
+  static const spaceW16 = SizedBox(width: 16);
+  static const spaceH4 = SizedBox(height: 4);
+  static const spaceH8 = SizedBox(height: 8);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(residenceClientStateNotifier);
+
+    if (state.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     return Scaffold(
       appBar: _buildAppBar(),
-      body: _buildBody(context),
+      body: _buildBody(context, state.residenceItems),
       floatingActionButton: _buildFloatingActionButton(),
       bottomNavigationBar: _buildBottomNavigationBar(),
     );
@@ -137,7 +91,7 @@ class ResidenceScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBody(BuildContext context) {
+  Widget _buildBody(BuildContext context, List<ResidenceItem> residenceItem) {
     return Container(
       padding: const EdgeInsets.only(top: 8),
       color: beige,
@@ -146,11 +100,11 @@ class ResidenceScreen extends StatelessWidget {
           children: [
             _residenceSetSection(),
             ListView.builder(
-              itemCount: _dummyRoomData.length,
+              itemCount: residenceItem.length,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                final item = _dummyRoomData[index];
+                final item = residenceItem[index];
                 return _roomDetailSection(context, item);
               },
             ),
@@ -267,7 +221,7 @@ class ResidenceScreen extends StatelessWidget {
   }
 
   //部屋情報セクション
-  Widget _roomDetailSection(BuildContext context, RoomInfo roomInfo) {
+  Widget _roomDetailSection(BuildContext context, ResidenceItem roomInfo) {
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(
@@ -276,21 +230,21 @@ class ResidenceScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset(roomInfo.imagePath),
+          Image.asset(roomInfo.imagePath ?? ''),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  roomInfo.title,
+                  roomInfo.title ?? '',
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
-                  roomInfo.price,
+                  roomInfo.price ?? '',
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -298,11 +252,11 @@ class ResidenceScreen extends StatelessWidget {
                   ),
                 ),
                 spaceH4,
-                _detailRow(Icons.train, roomInfo.access),
+                _detailRow(Icons.train, roomInfo.access ?? ''),
                 spaceH4,
-                _detailRow(Icons.dashboard, roomInfo.area),
+                _detailRow(Icons.dashboard, roomInfo.area ?? ''),
                 spaceH4,
-                _detailRow(Icons.business, roomInfo.floor),
+                _detailRow(Icons.business, roomInfo.floor ?? ''),
                 spaceH8,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
