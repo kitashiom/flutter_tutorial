@@ -30,11 +30,4 @@ class YoutubeClientStateNotifier extends StateNotifier<YoutubeClientState> {
       );
     }
   }
-
-  onBackHome() {
-    state = state.copyWith(
-      isLoading: false,
-      isReadyData: false,
-    );
-  }
 }

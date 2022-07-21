@@ -263,7 +263,7 @@ class YoutubeScreen extends ConsumerWidget {
                       style: const TextStyle(color: Colors.white),
                     ),
                     Text(
-                      item.channelName! + item.numOfViews! + item.daysAgo!,
+                      '${item.channelName ?? ''}・${item.numOfViews ?? ''}・${item.daysAgo ?? ''}',
                       style: const TextStyle(color: Colors.grey),
                     ),
                   ],
