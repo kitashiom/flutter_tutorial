@@ -1,22 +1,66 @@
 import 'package:flutter/material.dart';
 
+class ItemInfo {
+  ItemInfo({
+    required this.imagePath,
+    required this.title,
+    required this.price,
+    required this.peopleNumber,
+  });
+
+  final String imagePath;
+  final String title;
+  final String price;
+  final int peopleNumber;
+}
+
 class MercariScreen extends StatelessWidget {
-  const MercariScreen({super.key});
+  MercariScreen({super.key});
 
   static const Color red = Color(0xffE3463D);
   static const Color grey = Color(0xffEFEFEF);
-  static const SizedBox spaceH24 = SizedBox(
+  static const spaceH24 = SizedBox(
     height: 24,
   );
-  static const SizedBox spaceH16 = SizedBox(
+  static const spaceH16 = SizedBox(
     height: 16,
   );
-  static const SizedBox spaceH8 = SizedBox(
+  static const spaceH8 = SizedBox(
     height: 8,
   );
-  static const SizedBox spaceH4 = SizedBox(
+  static const spaceH4 = SizedBox(
     height: 4,
   );
+  static const spaceW8 = SizedBox(
+    width: 8,
+  );
+
+  final List<ItemInfo> _dummyItemData = [
+    ItemInfo(
+      imagePath: 'images/mercari_images/item_image.png',
+      title: 'NikonD5500',
+      price: '51,000',
+      peopleNumber: 446,
+    ),
+    ItemInfo(
+      imagePath: 'images/mercari_images/item2_image.png',
+      title: '早い者勝ち！【新品】ERA AAAAA',
+      price: '15,700',
+      peopleNumber: 177,
+    ),
+    ItemInfo(
+      imagePath: 'images/mercari_images/item_image.png',
+      title: 'NikonD5500',
+      price: '51,000',
+      peopleNumber: 446,
+    ),
+    ItemInfo(
+      imagePath: 'images/mercari_images/item2_image.png',
+      title: '早い者勝ち！【新品】ERA AAAAA',
+      price: '15,700',
+      peopleNumber: 177,
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -79,50 +123,48 @@ class MercariScreen extends StatelessWidget {
             Container(
               width: MediaQuery.of(context).size.width,
               color: Colors.white,
-              padding: const EdgeInsets.fromLTRB(16, 16, 0, 16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
-                              '売れやすい持ち物',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            '売れやすい持ち物',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
                             ),
-                            Text(
-                              '使わないモノを出品してみよう！',
-                              style: TextStyle(
-                                fontSize: 11,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const Text(
-                          'すべて見る ＞',
-                          style: TextStyle(
-                            color: Colors.blue,
                           ),
-                        )
-                      ],
-                    ),
+                          Text(
+                            '使わないモノを出品してみよう！',
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Text(
+                        'すべて見る ＞',
+                        style: TextStyle(
+                          color: Colors.blue,
+                        ),
+                      )
+                    ],
                   ),
                   spaceH16,
-                  itemSection('images/mercari_images/item_image.png',
-                      'NikonD5500', '51,000', 446),
-                  itemSection('images/mercari_images/item2_image.png',
-                      '早い者勝ち！【新品】ERA AAAAA', '15,700', 177),
-                  itemSection('images/mercari_images/item_image.png',
-                      'NikonD5500', '51,000', 446),
-                  itemSection('images/mercari_images/item2_image.png',
-                      '早い者勝ち！【新品】ERA AAAAA', '15,700', 177),
+                  ListView.builder(
+                    itemCount: _dummyItemData.length,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final item = _dummyItemData[index];
+                      return _itemSection(item);
+                    },
+                  ),
                 ],
               ),
             )
@@ -162,10 +204,9 @@ class MercariScreen extends StatelessWidget {
   }
 
   //出品アイテムセクション
-  Widget itemSection(
-      String imageURL, String title, String price, int peopleNumber) {
+  Widget _itemSection(ItemInfo itemInfo) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(0, 16, 16, 16),
+      padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: const BoxDecoration(
         border: Border(
           top: BorderSide(color: Colors.grey, width: 0.3),
@@ -174,17 +215,17 @@ class MercariScreen extends StatelessWidget {
       child: Row(
         children: [
           Image.asset(
-            imageURL,
+            itemInfo.imagePath,
             height: 70,
             width: 70,
           ),
-          spaceH8,
+          spaceW8,
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  title,
+                  itemInfo.title,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
@@ -193,7 +234,7 @@ class MercariScreen extends StatelessWidget {
                 ),
                 spaceH4,
                 Text(
-                  '¥$price',
+                  '¥${itemInfo.price}',
                   style: const TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 16,
@@ -208,7 +249,7 @@ class MercariScreen extends StatelessWidget {
                       size: 18,
                     ),
                     Text(
-                      ' $peopleNumber人が探しています',
+                      ' ${itemInfo.peopleNumber}人が探しています',
                       style: const TextStyle(
                         color: Colors.grey,
                         fontSize: 12,
@@ -222,10 +263,9 @@ class MercariScreen extends StatelessWidget {
           ElevatedButton(
             onPressed: () {},
             style: ElevatedButton.styleFrom(
-              elevation: 0,
-              primary: red,
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-            ),
+                elevation: 0,
+                primary: red,
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 0)),
             child: const Text(
               '出品する',
               style: TextStyle(
