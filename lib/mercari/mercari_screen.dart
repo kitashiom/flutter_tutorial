@@ -19,19 +19,19 @@ class MercariScreen extends StatelessWidget {
 
   static const Color red = Color(0xffE3463D);
   static const Color grey = Color(0xffEFEFEF);
-  static const SizedBox spaceH24 = SizedBox(
+  static const spaceH24 = SizedBox(
     height: 24,
   );
-  static const SizedBox spaceH16 = SizedBox(
+  static const spaceH16 = SizedBox(
     height: 16,
   );
-  static const SizedBox spaceH8 = SizedBox(
+  static const spaceH8 = SizedBox(
     height: 8,
   );
-  static const SizedBox spaceH4 = SizedBox(
+  static const spaceH4 = SizedBox(
     height: 4,
   );
-  static const SizedBox spaceW8 = SizedBox(
+  static const spaceW8 = SizedBox(
     width: 8,
   );
 
@@ -123,40 +123,37 @@ class MercariScreen extends StatelessWidget {
             Container(
               width: MediaQuery.of(context).size.width,
               color: Colors.white,
-              padding: const EdgeInsets.fromLTRB(16, 16, 0, 16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
-                              '売れやすい持ち物',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            '売れやすい持ち物',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
                             ),
-                            Text(
-                              '使わないモノを出品してみよう！',
-                              style: TextStyle(
-                                fontSize: 11,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const Text(
-                          'すべて見る ＞',
-                          style: TextStyle(
-                            color: Colors.blue,
                           ),
-                        )
-                      ],
-                    ),
+                          Text(
+                            '使わないモノを出品してみよう！',
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Text(
+                        'すべて見る ＞',
+                        style: TextStyle(
+                          color: Colors.blue,
+                        ),
+                      )
+                    ],
                   ),
                   spaceH16,
                   ListView.builder(
@@ -209,7 +206,7 @@ class MercariScreen extends StatelessWidget {
   //出品アイテムセクション
   Widget _itemSection(ItemInfo itemInfo) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(0, 16, 16, 16),
+      padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: const BoxDecoration(
         border: Border(
           top: BorderSide(color: Colors.grey, width: 0.3),
@@ -266,10 +263,9 @@ class MercariScreen extends StatelessWidget {
           ElevatedButton(
             onPressed: () {},
             style: ElevatedButton.styleFrom(
-              elevation: 0,
-              primary: red,
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-            ),
+                elevation: 0,
+                primary: red,
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 0)),
             child: const Text(
               '出品する',
               style: TextStyle(
