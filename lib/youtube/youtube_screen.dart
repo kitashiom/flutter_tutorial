@@ -1,56 +1,27 @@
+import 'package:axiaworks_flutter_tutorial/youtube/model/youtube_item.dart';
+import 'package:axiaworks_flutter_tutorial/youtube/youtube_client_state_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MovieInfo {
-  MovieInfo({
-    required this.imagePath,
-    required this.iconPath,
-    required this.title,
-    required this.subtitle,
-  });
-
-  final String imagePath;
-  final String iconPath;
-  final String title;
-  final String subtitle;
-}
-
-class YoutubeScreen extends StatelessWidget {
-  YoutubeScreen({super.key});
+class YoutubeScreen extends ConsumerWidget {
+  const YoutubeScreen({super.key});
 
   static const Color black = Color(0xff2B272C);
   static const Color darkBlack = Color(0xff1D191E);
   static const Color darkGrey = Color(0xff39343A);
   static const Color purple = Color(0xffA434BB);
 
-  final List<MovieInfo> _dummyMovieData = [
-    MovieInfo(
-        imagePath:
-            'https://i.ytimg.com/vi/n-4TmhGYxro/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAN2mFESszLVng1WdCP4568QefY9Q',
-        iconPath:
-            'https://yt3.ggpht.com/ytc/AKedOLRlIFgNc8dgyFUddgf6RRJB3_uFcaDXfNXjzd93=s176-c-k-c0x00ffffff-no-rj',
-        title: 'お互いかまって欲しい愛犬と弟のお留守番',
-        subtitle: 'テディベアドッグのモコ・12万 回視聴・6 か月前'),
-    MovieInfo(
-        imagePath:
-            'https://i.ytimg.com/vi/dEw9PZ15bxE/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAaWhQAGs86EmznsyZwUHM355zcCw',
-        iconPath:
-            'https://yt3.ggpht.com/ytc/AKedOLRlIFgNc8dgyFUddgf6RRJB3_uFcaDXfNXjzd93=s176-c-k-c0x00ffffff-no-rj',
-        title: 'ペットヒーターが気持ち良すぎて動けなくなったトイプードル',
-        subtitle: 'テディベアドッグのモコ・17万 回視聴・6 か月前'),
-    MovieInfo(
-        imagePath:
-            'https://i.ytimg.com/vi/nIFUSwCeXQ8/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDgErjaYl4qMEeL36sFB2U-a5U15Q',
-        iconPath:
-            'https://yt3.ggpht.com/lMx8PDGh_Z6mucUOpOBC_ALYQvXwQmozcQzK_lFOOt6prXz_eH1FccFBwNn4pjqyX5zTC6oD-Q=s176-c-k-c0x00ffffff-no-rj',
-        title: '初めてもち様の弟妹たちにお会いしてきました。',
-        subtitle: 'もちまる日記・108万 回視聴・1 日前'),
-  ];
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(youtubeClientStateNotifier);
+
+    if (state.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     return Scaffold(
       appBar: _buildAppBar(),
-      body: _buildBody(context),
+      body: _buildBody(context, state.youtubeItems),
       bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
@@ -112,7 +83,7 @@ class YoutubeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBody(BuildContext context) {
+  Widget _buildBody(BuildContext context, List<YoutubeItem> youtubeItems) {
     final List<Widget> categoryList = [
       _categoryButton(
         context,
@@ -205,11 +176,11 @@ class YoutubeScreen extends StatelessWidget {
                     ),
                   ),
                   ListView.builder(
-                    itemCount: _dummyMovieData.length,
+                    itemCount: youtubeItems.length,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      final item = _dummyMovieData[index];
+                      final item = youtubeItems[index];
                       return _movieItem(context, item);
                     },
                   ),
@@ -252,11 +223,11 @@ class YoutubeScreen extends StatelessWidget {
     );
   }
 
-  Widget _movieItem(BuildContext context, MovieInfo movieInfo) {
+  Widget _movieItem(BuildContext context, YoutubeItem item) {
     return Column(
       children: [
         Image.network(
-          movieInfo.imagePath,
+          item.imagePath ?? '',
           width: MediaQuery.of(context).size.width,
           fit: BoxFit.cover,
           errorBuilder:
@@ -272,7 +243,7 @@ class YoutubeScreen extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(100),
                 child: Image.network(
-                  movieInfo.iconPath,
+                  item.iconPath ?? '',
                   height: 33,
                   width: 33,
                   errorBuilder: (BuildContext context, Object exception,
@@ -287,12 +258,12 @@ class YoutubeScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      movieInfo.title,
+                      item.title ?? '',
                       maxLines: 2,
                       style: const TextStyle(color: Colors.white),
                     ),
                     Text(
-                      movieInfo.subtitle,
+                      '${item.channelName ?? ''}・${item.numOfViews ?? ''}・${item.daysAgo ?? ''}',
                       style: const TextStyle(color: Colors.grey),
                     ),
                   ],
