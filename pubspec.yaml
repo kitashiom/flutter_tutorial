@@ -35,6 +35,17 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   badges: ^2.0.3
+<<<<<<< HEAD
+=======
+  shared_preferences: ^2.0.15
+  freezed_annotation: ^1.1.0
+  retrofit: ^3.0.1
+  logging: ^1.0.2
+  pretty_dio_logger: ^1.1.1
+  flutter_riverpod: ^1.0.3
+  flutter_state_notifier: ^0.7.1
+  pedantic_mono: ^1.19.2
+>>>>>>> 0798dcf (pedantic_mono導入)
 
 dev_dependencies:
   flutter_test:
