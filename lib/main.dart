@@ -1,4 +1,5 @@
 import 'package:axiaworks_flutter_tutorial/animation/animation_screen.dart';
+import 'package:axiaworks_flutter_tutorial/async/async_screen.dart';
 import 'package:axiaworks_flutter_tutorial/building/building_layout_screen.dart';
 import 'package:axiaworks_flutter_tutorial/mercari/mercari_screen.dart';
 import 'package:axiaworks_flutter_tutorial/residence/residence_screen.dart';
@@ -80,7 +81,7 @@ class MyHomePage extends StatelessWidget {
                   ),
                 );
               },
-              child: const Text('Residence'),
+              child: const Text('residence'),
             ),
             ElevatedButton(
               onPressed: () {
@@ -92,6 +93,17 @@ class MyHomePage extends StatelessWidget {
                 );
               },
               child: const Text('mercari'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (context) => const AsyncScreen(),
+                  ),
+                );
+              },
+              child: const Text('async'),
             ),
           ],
         ),
