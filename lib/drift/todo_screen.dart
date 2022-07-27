@@ -106,10 +106,10 @@ class TodoScreen extends ConsumerWidget {
     BuildContext context,
     TodoStateNotifier notifier,
   ) {
-    final _title = TextEditingController();
-    final _description = TextEditingController();
-    final _limitData = TextEditingController();
-    final _addDate = DateTime.now();
+    final title = TextEditingController();
+    final description = TextEditingController();
+    final limitData = TextEditingController();
+    final addDate = DateTime.now();
 
     return showDialog<AlertDialog>(
       context: context,
@@ -121,7 +121,7 @@ class TodoScreen extends ConsumerWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextFormField(
-                  controller: _title,
+                  controller: title,
                   decoration: const InputDecoration(
                     prefixIcon: Icon(Icons.text_fields),
                     hintText: 'タイトルを入力してください',
@@ -134,7 +134,7 @@ class TodoScreen extends ConsumerWidget {
                   },
                 ),
                 TextFormField(
-                  controller: _description,
+                  controller: description,
                   decoration: const InputDecoration(
                     prefixIcon: Icon(Icons.notes),
                     hintText: '内容を入力してください',
@@ -147,7 +147,7 @@ class TodoScreen extends ConsumerWidget {
                   },
                 ),
                 TextFormField(
-                  controller: _limitData,
+                  controller: limitData,
                   decoration: const InputDecoration(
                     prefixIcon: Icon(Icons.calendar_today),
                     hintText: '期限を選択してください',
@@ -163,7 +163,7 @@ class TodoScreen extends ConsumerWidget {
                       confirmText: '決定',
                     );
                     final formatDate = format.format(date!);
-                    _limitData.text = formatDate;
+                    limitData.text = formatDate;
                   },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -184,12 +184,12 @@ class TodoScreen extends ConsumerWidget {
                     const SizedBox(width: 8),
                     ElevatedButton(
                       onPressed: () {
-                        final limitDate = format.parseStrict(_limitData.text);
+                        final limitDate = format.parseStrict(limitData.text);
                         if (_formKey.currentState!.validate()) {
                           final newTodo = TodosCompanion(
-                            title: drift.Value(_title.text),
-                            description: drift.Value(_description.text),
-                            addDate: drift.Value(_addDate),
+                            title: drift.Value(title.text),
+                            description: drift.Value(description.text),
+                            addDate: drift.Value(addDate),
                             limitDate: drift.Value(limitDate),
                           );
                           notifier.insertTodoData(newTodo);

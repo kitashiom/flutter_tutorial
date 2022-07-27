@@ -14,7 +14,7 @@ class TodoStateNotifier extends StateNotifier<TodoClientState> {
   }
 
   final _repository = TodoRepository();
-  Future getTodoData() async {
+  Future<void> getTodoData() async {
     state = state.copyWith(isLoading: true);
 
     final todos = await _repository.getAllTodoData();

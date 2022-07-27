@@ -32,8 +32,8 @@ class MyDatabase extends _$MyDatabase {
 
   Future<List<Todo>> get readAllTodoData => select(todos).get();
 
-  Future writeTodo(TodosCompanion todo) => into(todos).insert(todo);
+  Future<void> writeTodo(TodosCompanion todo) => into(todos).insert(todo);
 
-  Future deleteTodo(int id) =>
+  Future<void> deleteTodo(int id) =>
       (delete(todos)..where((tbl) => tbl.id.equals(id))).go();
 }
