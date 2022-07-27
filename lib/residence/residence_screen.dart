@@ -142,7 +142,7 @@ class ResidenceScreen extends ConsumerWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8),
         child: Column(
           children: [
             Row(
