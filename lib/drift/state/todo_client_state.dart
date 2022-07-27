@@ -8,10 +8,6 @@ class TodoClientState with _$TodoClientState {
   const factory TodoClientState({
     @Default(false) bool isLoading,
     @Default(false) bool isReadyData,
-<<<<<<< Updated upstream
     @Default([Todo]) List<Todo> todoItems,
-=======
-    @Default(<TodoItemData>[]) List<TodoItemData> todoItems,
->>>>>>> Stashed changes
   }) = _TodoClientState;
 }

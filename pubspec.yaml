@@ -52,13 +52,18 @@ dependencies:
   path_provider: ^2.0.0
   path: ^1.8.1
   intl: ^0.17.0
-<<<<<<< Updated upstream
   flutter_slidable: ^2.0.0
+<<<<<<< HEAD
 =======
 
 >>>>>>> Stashed changes
 >>>>>>> 8caeaaf (実装)
+<<<<<<< HEAD
 >>>>>>> a251532 (実装)
+=======
+=======
+>>>>>>> 93c9a7f (修正)
+>>>>>>> 41d4d9d (修正)
 
 dev_dependencies:
   flutter_test:

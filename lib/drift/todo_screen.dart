@@ -3,34 +3,19 @@ import 'package:axiaworks_flutter_tutorial/drift/todo_client_state_notifier.dart
 import 'package:drift/drift.dart' as drift;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-<<<<<<< Updated upstream
 import 'package:flutter_slidable/flutter_slidable.dart';
-=======
->>>>>>> Stashed changes
 import 'package:intl/intl.dart';
 
 class TodoScreen extends ConsumerWidget {
   TodoScreen({super.key});
 
   final _formKey = GlobalKey<FormState>();
-  final _addDate = DateTime.now();
-  final _title = TextEditingController();
-  final _description = TextEditingController();
-  final _limitData = TextEditingController();
-<<<<<<< Updated upstream
   final format = DateFormat('yyyy-MM-dd');
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(todoStateNotifierProvider);
     final notifier = ref.watch(todoStateNotifierProvider.notifier);
-=======
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(todoClientStateNotifier);
-    final notifier = ref.watch(todoClientStateNotifier.notifier);
->>>>>>> Stashed changes
 
     return Scaffold(
       body: state.isReadyData
@@ -40,11 +25,7 @@ class TodoScreen extends ConsumerWidget {
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 final item = state.todoItems[index];
-<<<<<<< Updated upstream
                 return _itemCard(item, notifier);
-=======
-                return _itemCard(item);
->>>>>>> Stashed changes
               },
             )
           : const Center(
@@ -54,12 +35,7 @@ class TodoScreen extends ConsumerWidget {
               ),
             ),
       floatingActionButton: FloatingActionButton(
-<<<<<<< Updated upstream
         child: const Icon(Icons.edit),
-=======
-        backgroundColor: Colors.green,
-        child: const Icon(Icons.add),
->>>>>>> Stashed changes
         onPressed: () {
           _showDialog(context, notifier);
         },
@@ -67,7 +43,6 @@ class TodoScreen extends ConsumerWidget {
     );
   }
 
-<<<<<<< Updated upstream
   Widget _itemCard(
     Todo item,
     TodoStateNotifier notifier,
@@ -124,22 +99,18 @@ class TodoScreen extends ConsumerWidget {
           ),
         ),
       ),
-=======
-  Widget _itemCard(TodoItemData item) {
-    return Card(
-      child: Text(item.title),
->>>>>>> Stashed changes
     );
   }
 
   Future<dynamic> _showDialog(
     BuildContext context,
-<<<<<<< Updated upstream
     TodoStateNotifier notifier,
-=======
-    TodoClientStateNotifier notifier,
->>>>>>> Stashed changes
   ) {
+    final _title = TextEditingController();
+    final _description = TextEditingController();
+    final _limitData = TextEditingController();
+    final _addDate = DateTime.now();
+
     return showDialog<AlertDialog>(
       context: context,
       builder: (context) {
@@ -181,7 +152,6 @@ class TodoScreen extends ConsumerWidget {
                     prefixIcon: Icon(Icons.calendar_today),
                     hintText: '期限を選択してください',
                   ),
-<<<<<<< Updated upstream
                   onTap: () async {
                     final date = await showDatePicker(
                       context: context,
@@ -193,12 +163,6 @@ class TodoScreen extends ConsumerWidget {
                       confirmText: '決定',
                     );
                     final formatDate = format.format(date!);
-=======
-                  onTap: () {
-                    final formatDate = DateFormat('yyyy-MM-dd').format(
-                      DateTime.now(),
-                    );
->>>>>>> Stashed changes
                     _limitData.text = formatDate;
                   },
                   validator: (value) {
@@ -220,16 +184,9 @@ class TodoScreen extends ConsumerWidget {
                     const SizedBox(width: 8),
                     ElevatedButton(
                       onPressed: () {
-<<<<<<< Updated upstream
                         final limitDate = format.parseStrict(_limitData.text);
                         if (_formKey.currentState!.validate()) {
                           final newTodo = TodosCompanion(
-=======
-                        final limitDate = DateFormat('yyyy-MM-dd')
-                            .parseStrict(_limitData.text);
-                        if (_formKey.currentState!.validate()) {
-                          final newTodo = TodoItemCompanion(
->>>>>>> Stashed changes
                             title: drift.Value(_title.text),
                             description: drift.Value(_description.text),
                             addDate: drift.Value(_addDate),
