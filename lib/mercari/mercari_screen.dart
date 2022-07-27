@@ -221,10 +221,9 @@ class MercariScreen extends ConsumerWidget {
           ElevatedButton(
             onPressed: () {},
             style: ElevatedButton.styleFrom(
-              elevation: 0,
-              primary: red,
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-            ),
+                elevation: 0,
+                primary: red,
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 0)),
             child: const Text(
               '出品する',
               style: TextStyle(
