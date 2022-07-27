@@ -17,7 +17,10 @@ class MovieInfo {
 class YoutubeScreen extends StatelessWidget {
   YoutubeScreen({super.key});
 
-  static const Color backgroundBlackColor = Color(0xff2B272C);
+  static const Color black = Color(0xff2B272C);
+  static const Color darkBlack = Color(0xff1D191E);
+  static const Color darkGrey = Color(0xff39343A);
+  static const Color purple = Color(0xffA434BB);
 
   final List<MovieInfo> _dummyMovieData = [
     MovieInfo(
@@ -40,7 +43,7 @@ class YoutubeScreen extends StatelessWidget {
         iconPath:
             'https://yt3.ggpht.com/lMx8PDGh_Z6mucUOpOBC_ALYQvXwQmozcQzK_lFOOt6prXz_eH1FccFBwNn4pjqyX5zTC6oD-Q=s176-c-k-c0x00ffffff-no-rj',
         title: '初めてもち様の弟妹たちにお会いしてきました。',
-        subtitle: 'もちまる日記・1,08万 回視聴・1 日前'),
+        subtitle: 'もちまる日記・108万 回視聴・1 日前'),
   ];
 
   @override
@@ -54,7 +57,7 @@ class YoutubeScreen extends StatelessWidget {
 
   AppBar _buildAppBar() {
     return AppBar(
-      backgroundColor: backgroundBlackColor,
+      backgroundColor: black,
       automaticallyImplyLeading: false,
       leading: Row(
         children: [
@@ -97,7 +100,7 @@ class YoutubeScreen extends StatelessWidget {
                 width: 27,
                 alignment: Alignment.center,
                 decoration: const BoxDecoration(
-                  color: Color(0xffA434BB),
+                  color: purple,
                   shape: BoxShape.circle,
                 ),
                 child: const Text('t'),
@@ -110,26 +113,61 @@ class YoutubeScreen extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
-    List<Widget> categoryList = [
-      _categoryButton(context, Icons.local_fire_department, '急上昇',
-          const Color(0xff71122B), const Color(0xffBA1D46)),
-      _categoryButton(context, Icons.music_note, '音楽', const Color(0xff22675D),
-          const Color(0xff4DAA99)),
-      _categoryButton(context, Icons.sports_esports, 'ゲーム',
-          const Color(0xff7C5353), const Color(0xffC7857E)),
-      _categoryButton(context, Icons.newspaper, 'ニュース', const Color(0xff114676),
-          const Color(0xff0F569D)),
-      _categoryButton(context, Icons.tips_and_updates, '学び',
-          const Color(0xff125D3E), const Color(0xff128C57)),
-      _categoryButton(context, Icons.live_tv, 'ライブ', const Color(0xffB33B0F),
-          const Color(0xffF78548)),
-      _categoryButton(context, Icons.emoji_events, 'スポーツ',
-          const Color(0xff055464), const Color(0xff0D9CC0)),
+    final List<Widget> categoryList = [
+      _categoryButton(
+        context,
+        Icons.local_fire_department,
+        '急上昇',
+        const Color(0xff71122B),
+        const Color(0xffBA1D46),
+      ),
+      _categoryButton(
+        context,
+        Icons.music_note,
+        '音楽',
+        const Color(0xff22675D),
+        const Color(0xff4DAA99),
+      ),
+      _categoryButton(
+        context,
+        Icons.sports_esports,
+        'ゲーム',
+        const Color(0xff7C5353),
+        const Color(0xffC7857E),
+      ),
+      _categoryButton(
+        context,
+        Icons.newspaper,
+        'ニュース',
+        const Color(0xff114676),
+        const Color(0xff0F569D),
+      ),
+      _categoryButton(
+        context,
+        Icons.tips_and_updates,
+        '学び',
+        const Color(0xff125D3E),
+        const Color(0xff128C57),
+      ),
+      _categoryButton(
+        context,
+        Icons.live_tv,
+        'ライブ',
+        const Color(0xffB33B0F),
+        const Color(0xffF78548),
+      ),
+      _categoryButton(
+        context,
+        Icons.emoji_events,
+        'スポーツ',
+        const Color(0xff055464),
+        const Color(0xff0D9CC0),
+      ),
     ];
 
     return Container(
       width: MediaQuery.of(context).size.width,
-      color: const Color(0xff1D191E),
+      color: darkBlack,
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -139,7 +177,7 @@ class YoutubeScreen extends StatelessWidget {
                 crossAxisCount: 2,
                 mainAxisSpacing: 8,
                 crossAxisSpacing: 8,
-                childAspectRatio: 2 / 0.5,
+                childAspectRatio: 4 / 1,
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 children: categoryList,
@@ -148,11 +186,11 @@ class YoutubeScreen extends StatelessWidget {
             const Divider(
               height: 2,
               thickness: 2,
-              color: Color(0xff39343A),
+              color: darkGrey,
             ),
             Container(
               width: MediaQuery.of(context).size.width,
-              color: backgroundBlackColor,
+              color: black,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -160,7 +198,10 @@ class YoutubeScreen extends StatelessWidget {
                     padding: EdgeInsets.all(16),
                     child: Text(
                       '急上昇動画',
-                      style: TextStyle(color: Colors.white, fontSize: 20),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
                     ),
                   ),
                   ListView.builder(
@@ -184,8 +225,6 @@ class YoutubeScreen extends StatelessWidget {
   Widget _categoryButton(BuildContext context, IconData icon, String title,
       Color colorStart, Color colorEnd) {
     return Container(
-      height: 50,
-      width: (MediaQuery.of(context).size.width - 32) / 2,
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -198,7 +237,11 @@ class YoutubeScreen extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(icon, color: Colors.white, size: 30),
+          Icon(
+            icon,
+            color: Colors.white,
+            size: 30,
+          ),
           const SizedBox(width: 10),
           Text(
             title,
@@ -300,7 +343,7 @@ class YoutubeScreen extends StatelessWidget {
       unselectedItemColor: Colors.white,
       selectedFontSize: 10,
       unselectedFontSize: 10,
-      backgroundColor: backgroundBlackColor,
+      backgroundColor: black,
     );
   }
 }
