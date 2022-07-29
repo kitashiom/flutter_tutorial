@@ -118,6 +118,17 @@ class MyHomePage extends StatelessWidget {
               },
               child: const Text('mvvm'),
             ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (context) => const QiitaTopScreen(),
+                  ),
+                );
+              },
+              child: const Text('birthday app'),
+            ),
           ],
         ),
       ),
