@@ -64,7 +64,7 @@ class _AsyncScreen extends State<AsyncScreen> {
   }
 
   Future<dynamic> _showDialog(BuildContext context) {
-    return showDialog(
+    return showDialog<AlertDialog>(
         context: context,
         builder: (context) {
           return AlertDialog(
