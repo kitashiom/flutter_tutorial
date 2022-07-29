@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AsyncScreen extends StatefulWidget {
-  const AsyncScreen({Key? key}) : super(key: key);
+  const AsyncScreen({super.key});
 
   @override
   State<AsyncScreen> createState() => _AsyncScreen();

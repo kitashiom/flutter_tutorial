@@ -32,11 +32,11 @@ class QiitaClientStateNotifier extends StateNotifier<QiitaClientState> {
     }
   }
 
-  onBackHome() {
+  void onBackHome() {
     state = state.copyWith(
       isLoading: false,
       isReadyData: false,
-      currentTag: "",
+      currentTag: '',
     );
   }
 }
