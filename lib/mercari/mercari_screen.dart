@@ -47,13 +47,13 @@ class MercariScreen extends ConsumerWidget {
   }
 
   Widget _buildBody(BuildContext context, List<MercariItem> mercariItem) {
-    return Container(
+    return ColoredBox(
       color: grey,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -139,9 +139,8 @@ class MercariScreen extends ConsumerWidget {
       child: Container(
         height: 90,
         width: 80,
-        padding: const EdgeInsets.only(top: 16.0),
+        padding: const EdgeInsets.only(top: 16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Icon(
               icon,
@@ -221,9 +220,10 @@ class MercariScreen extends ConsumerWidget {
           ElevatedButton(
             onPressed: () {},
             style: ElevatedButton.styleFrom(
-                elevation: 0,
-                primary: red,
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 0)),
+              elevation: 0,
+              primary: red,
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+            ),
             child: const Text(
               '出品する',
               style: TextStyle(
@@ -269,10 +269,11 @@ class MercariScreen extends ConsumerWidget {
     return BottomNavigationBar(
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home_outlined,
-            ),
-            label: 'ホーム'),
+          icon: Icon(
+            Icons.home_outlined,
+          ),
+          label: 'ホーム',
+        ),
         BottomNavigationBarItem(
           icon: Icon(Icons.notifications_none_outlined),
           label: 'お知らせ',

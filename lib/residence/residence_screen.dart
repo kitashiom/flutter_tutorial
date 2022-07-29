@@ -176,13 +176,14 @@ class ResidenceScreen extends ConsumerWidget {
                   height: 30,
                   width: 30,
                   child: IconButton(
-                      onPressed: () {},
-                      padding: EdgeInsets.zero,
-                      icon: const Icon(
-                        Icons.edit,
-                        color: green,
-                        size: 25,
-                      )),
+                    onPressed: () {},
+                    padding: EdgeInsets.zero,
+                    icon: const Icon(
+                      Icons.edit,
+                      color: green,
+                      size: 25,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -193,7 +194,7 @@ class ResidenceScreen extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8),
                 child: Column(
                   children: [
                     _detailRow(
@@ -347,41 +348,45 @@ class ResidenceScreen extends ConsumerWidget {
     return BottomNavigationBar(
       items: <BottomNavigationBarItem>[
         const BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              size: 35,
-            ),
-            label: 'ホーム'),
+          icon: Icon(
+            Icons.home,
+            size: 35,
+          ),
+          label: 'ホーム',
+        ),
         const BottomNavigationBarItem(
-            icon: Icon(
-              Icons.favorite_border,
-              size: 35,
-            ),
-            label: 'お気に入り'),
+          icon: Icon(
+            Icons.favorite_border,
+            size: 35,
+          ),
+          label: 'お気に入り',
+        ),
         BottomNavigationBarItem(
-            icon: Badge(
-              position: BadgePosition.topEnd(top: -5, end: -5),
-              badgeColor: red,
-              elevation: 0,
-              badgeContent: const Text(
-                '1',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 13,
-                ),
-              ),
-              child: const Icon(
-                Icons.messenger_outline,
-                size: 35,
+          icon: Badge(
+            position: BadgePosition.topEnd(top: -5, end: -5),
+            badgeColor: red,
+            elevation: 0,
+            badgeContent: const Text(
+              '1',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 13,
               ),
             ),
-            label: 'メッセージ'),
-        const BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person_outlined,
+            child: const Icon(
+              Icons.messenger_outline,
               size: 35,
             ),
-            label: 'マイページ'),
+          ),
+          label: 'メッセージ',
+        ),
+        const BottomNavigationBarItem(
+          icon: Icon(
+            Icons.person_outlined,
+            size: 35,
+          ),
+          label: 'マイページ',
+        ),
       ],
       type: BottomNavigationBarType.fixed,
       selectedItemColor: green,

@@ -65,90 +65,91 @@ class _AsyncScreen extends State<AsyncScreen> {
 
   Future<dynamic> _showDialog(BuildContext context) {
     return showDialog<AlertDialog>(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text('登録'),
-            content: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: '名前',
-                      hintText: '花子',
-                    ),
-                    onChanged: (value) {
-                      _name = value;
-                    },
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return '名前を入力してください';
-                      }
-                      return null;
-                    },
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('登録'),
+          content: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: '名前',
+                    hintText: '花子',
                   ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: '年齢',
-                      hintText: '20',
-                    ),
-                    //数値入力制限
-                    keyboardType: TextInputType.number,
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.digitsOnly
-                    ],
-                    onChanged: (value) {
-                      _age = value;
-                    },
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return '年齢を入力してください';
-                      }
-                      return null;
-                    },
+                  onChanged: (value) {
+                    _name = value;
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return '名前を入力してください';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: '年齢',
+                    hintText: '20',
                   ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: '誕生日',
-                      hintText: '1/1',
-                    ),
-                    onChanged: (value) {
-                      _birthday = value;
-                    },
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return '誕生日を入力してください';
-                      }
-                      return null;
-                    },
+                  //数値入力制限
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
+                  onChanged: (value) {
+                    _age = value;
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return '年齢を入力してください';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: '誕生日',
+                    hintText: '1/1',
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
+                  onChanged: (value) {
+                    _birthday = value;
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return '誕生日を入力してください';
+                    }
+                    return null;
+                  },
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('キャンセル'),
+                    ),
+                    const SizedBox(width: 8),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          _setData();
                           Navigator.pop(context);
-                        },
-                        child: const Text('キャンセル'),
-                      ),
-                      const SizedBox(width: 8),
-                      ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            _setData();
-                            Navigator.pop(context);
-                          }
-                        },
-                        child: const Text('保存'),
-                      ),
-                    ],
-                  )
-                ],
-              ),
+                        }
+                      },
+                      child: const Text('保存'),
+                    ),
+                  ],
+                )
+              ],
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 }

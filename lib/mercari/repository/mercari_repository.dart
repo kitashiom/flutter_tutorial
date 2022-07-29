@@ -6,7 +6,7 @@ final mercariRepositoryProvider =
     Provider<MercariRepository>((_) => MercariRepository());
 
 class MercariRepository {
-  MercariApiClient _api = MercariApiClient.create();
+  final MercariApiClient _api = MercariApiClient.create();
 
   Future<List<MercariItem>> fetchMercariItems() async {
     return _api.fetchMercariItems();

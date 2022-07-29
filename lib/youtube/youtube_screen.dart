@@ -193,8 +193,13 @@ class YoutubeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _categoryButton(BuildContext context, IconData icon, String title,
-      Color colorStart, Color colorEnd) {
+  Widget _categoryButton(
+    BuildContext context,
+    IconData icon,
+    String title,
+    Color colorStart,
+    Color colorEnd,
+  ) {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
@@ -246,8 +251,11 @@ class YoutubeScreen extends ConsumerWidget {
                   item.iconPath ?? '',
                   height: 33,
                   width: 33,
-                  errorBuilder: (BuildContext context, Object exception,
-                      StackTrace? stackTrace) {
+                  errorBuilder: (
+                    BuildContext context,
+                    Object exception,
+                    StackTrace? stackTrace,
+                  ) {
                     return const Text('Error');
                   },
                 ),
@@ -274,7 +282,7 @@ class YoutubeScreen extends ConsumerWidget {
                 width: 30,
                 child: IconButton(
                   onPressed: () {},
-                  padding: const EdgeInsets.all(0),
+                  padding: EdgeInsets.zero,
                   icon: const Icon(
                     Icons.more_vert_outlined,
                     color: Colors.white,
@@ -293,21 +301,27 @@ class YoutubeScreen extends ConsumerWidget {
     return BottomNavigationBar(
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home_outlined,
-            ),
-            label: 'ホーム'),
+          icon: Icon(
+            Icons.home_outlined,
+          ),
+          label: 'ホーム',
+        ),
         BottomNavigationBarItem(icon: Icon(Icons.explore), label: '探索'),
         BottomNavigationBarItem(
-            icon: Icon(
-              Icons.add_circle_outline,
-              size: 40,
-            ),
-            label: ''),
+          icon: Icon(
+            Icons.add_circle_outline,
+            size: 40,
+          ),
+          label: '',
+        ),
         BottomNavigationBarItem(
-            icon: Icon(Icons.subscriptions_outlined), label: '登録チャンネル'),
+          icon: Icon(Icons.subscriptions_outlined),
+          label: '登録チャンネル',
+        ),
         BottomNavigationBarItem(
-            icon: Icon(Icons.video_library_outlined), label: 'ライブラリ'),
+          icon: Icon(Icons.video_library_outlined),
+          label: 'ライブラリ',
+        ),
       ],
       type: BottomNavigationBarType.fixed,
       selectedItemColor: Colors.white,

@@ -6,7 +6,7 @@ final youtubeRepositoryProvider =
     Provider<YoutubeRepository>((_) => YoutubeRepository());
 
 class YoutubeRepository {
-  YoutubeApiClient _api = YoutubeApiClient.create();
+  final YoutubeApiClient _api = YoutubeApiClient.create();
 
   Future<List<YoutubeItem>> fetchYoutubeItems() async {
     return _api.fetchYoutubeItems();
