@@ -1,5 +1,6 @@
 import 'package:axiaworks_flutter_tutorial/animation/animation_screen.dart';
 import 'package:axiaworks_flutter_tutorial/async/async_screen.dart';
+import 'package:axiaworks_flutter_tutorial/birthday/birthday_screen.dart';
 import 'package:axiaworks_flutter_tutorial/building/building_layout_screen.dart';
 import 'package:axiaworks_flutter_tutorial/mercari/mercari_screen.dart';
 import 'package:axiaworks_flutter_tutorial/mvvm/qiita_top_screen.dart';
@@ -123,7 +124,7 @@ class MyHomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (context) => const QiitaTopScreen(),
+                    builder: (context) => const BirthdayScreen(),
                   ),
                 );
               },
