@@ -56,6 +56,13 @@ class BirthdayScreen extends ConsumerWidget {
         backgroundColor: const Color(0xFF377D71),
         automaticallyImplyLeading: false,
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: pink,
+        child: const Icon(
+          Icons.edit,
+        ),
+        onPressed: () {},
+      ),
       body: Container(
         height: MediaQuery.of(context).size.height,
         padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
