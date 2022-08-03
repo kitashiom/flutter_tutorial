@@ -1,14 +1,53 @@
-import 'package:axiaworks_flutter_tutorial/mvvm/model/qiita_item.dart';
-import 'package:axiaworks_flutter_tutorial/mvvm/qiita_client_state_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class Birthday {
+  Birthday({
+    required this.name,
+    required this.birthday,
+    required this.gift,
+  });
+
+  final String name;
+  final String birthday;
+  final String gift;
+}
 
 class BirthdayScreen extends ConsumerWidget {
   const BirthdayScreen({super.key});
 
+  static const pink = Color(0xffFBA1A1);
+  static const spaceW8 = SizedBox(
+    width: 8,
+  );
+  static const spaceH16 = SizedBox(
+    height: 16,
+  );
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(qiitaClientStateNotifier);
+    final list = [
+      Birthday(
+        name: 'misumi',
+        birthday: '12/6',
+        gift: 'リップ＆靴',
+      ),
+      Birthday(
+        name: 'mirei',
+        birthday: '2/24',
+        gift: 'リップ＆靴',
+      ),
+      Birthday(
+        name: 'natsuki',
+        birthday: '8/8',
+        gift: 'リップ＆靴',
+      ),
+      Birthday(
+        name: 'natsuki',
+        birthday: '8/8',
+        gift: 'リップ＆靴',
+      ),
+    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -17,77 +56,137 @@ class BirthdayScreen extends ConsumerWidget {
         backgroundColor: const Color(0xFF377D71),
         automaticallyImplyLeading: false,
       ),
-      body: Stack(
-        children: [
-          Center(
-            child: state.isReadyData
-                ? _createListView(state.qiitaItems)
-                : _createSearchButtons(ref),
-          ),
-          Visibility(
-            visible: state.isLoading,
-            child: const ColoredBox(
-              color: Color(0x88000000),
-              child: Center(
-                child: CircularProgressIndicator(),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+        color: const Color(0xffE1ECEC),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'next',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
-            ),
+              ListView.separated(
+                itemCount: list.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  final item = list[index];
+                  return SizedBox(
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item.birthday,
+                                      style: const TextStyle(
+                                        fontSize: 32,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                      width: 25,
+                                      child: IconButton(
+                                        onPressed: () {},
+                                        alignment: Alignment.topRight,
+                                        icon: const Icon(Icons.more_horiz),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                spaceH16,
+                                Align(
+                                  child: Text(
+                                    item.name,
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                Row(
+                                  children: const [
+                                    Icon(
+                                      Icons.navigate_next,
+                                      color: pink,
+                                    ),
+                                    spaceW8,
+                                    Text(
+                                      '21歳',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.redeem,
+                                      color: pink,
+                                    ),
+                                    spaceW8,
+                                    Text(
+                                      item.gift,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: -30,
+                          left: (MediaQuery.of(context).size.width - 116) / 2,
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Text(
+                              '👩🏻',
+                              style: TextStyle(
+                                fontSize: 40,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return const SizedBox(
+                    height: 32,
+                  );
+                },
+              ),
+            ],
           ),
-        ],
+        ),
       ),
-    );
-  }
-
-  // タグのボタンを押してデータが取得されたら表示されるリスト
-  Widget _createListView(List<QiitaItem> qiitaItems) {
-    return ListView.builder(
-      itemCount: qiitaItems.length,
-      itemBuilder: (context, index) {
-        final item = qiitaItems[index];
-
-        return Container(
-          padding: const EdgeInsets.only(top: 4, bottom: 4, left: 8, right: 8),
-          constraints: const BoxConstraints(minHeight: 96, maxHeight: 96),
-          child: Card(
-            elevation: 8,
-            child: Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.all(16),
-              child: ListTile(
-                leading: Image.network(item.user!.profileImageUrl!),
-                title: Text(item.title!),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  // データ未取得時に表示するタグのボタン
-  Widget _createSearchButtons(WidgetRef ref) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        ElevatedButton(
-          onPressed: () => ref
-              .read(qiitaClientStateNotifier.notifier)
-              .fetchQiitaItems('Flutter'),
-          child: const Text('Flutter'),
-        ),
-        ElevatedButton(
-          onPressed: () => ref
-              .read(qiitaClientStateNotifier.notifier)
-              .fetchQiitaItems('android'),
-          child: const Text('android'),
-        ),
-        ElevatedButton(
-          onPressed: () => ref
-              .read(qiitaClientStateNotifier.notifier)
-              .fetchQiitaItems('ios'),
-          child: const Text('ios'),
-        ),
-      ],
     );
   }
 }
