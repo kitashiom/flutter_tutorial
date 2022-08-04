@@ -1,18 +1,9 @@
+import 'package:axiaworks_flutter_tutorial/birthday/birthday_client_state_notifier.dart';
+import 'package:axiaworks_flutter_tutorial/birthday/db/birthday_db.dart';
+import 'package:drift/drift.dart' as drift;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-
-class Birthday {
-  Birthday({
-    required this.name,
-    required this.birthday,
-    required this.gift,
-  });
-
-  final String name;
-  final String birthday;
-  final String gift;
-}
 
 class BirthdayScreen extends ConsumerWidget {
   BirthdayScreen({super.key});
@@ -28,31 +19,11 @@ class BirthdayScreen extends ConsumerWidget {
     height: 16,
   );
 
-  final List<Birthday> list = [
-    Birthday(
-      name: 'misumi',
-      birthday: '12/6',
-      gift: 'リップ＆靴',
-    ),
-    Birthday(
-      name: 'mirei',
-      birthday: '2/24',
-      gift: 'リップ＆靴',
-    ),
-    Birthday(
-      name: 'natsuki',
-      birthday: '8/8',
-      gift: 'リップ＆靴',
-    ),
-    Birthday(
-      name: 'natsuki',
-      birthday: '8/8',
-      gift: 'リップ＆靴',
-    ),
-  ];
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(birthdayStateNotifierProvider);
+    final notifier = ref.watch(birthdayStateNotifierProvider.notifier);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("My friend's Birthday"),
@@ -67,43 +38,57 @@ class BirthdayScreen extends ConsumerWidget {
           Icons.edit,
         ),
         onPressed: () {
-          _showDialog(context);
+          _showDialog(context, notifier);
+          print(state.birthdayItems.length);
         },
       ),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-        color: const Color(0xffE1ECEC),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'next',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+      body: state.isReadyData
+          ? Container(
+              height: MediaQuery.of(context).size.height,
+              padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+              color: const Color(0xffE1ECEC),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'next',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    ListView.separated(
+                      itemCount: state.birthdayItems.length,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final birthdayItem = state.birthdayItems[index];
+                        return _birthdayListCard(
+                            context, notifier, birthdayItem);
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return const SizedBox(
+                          height: 32,
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
-              ListView.separated(
-                itemCount: list.length,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  final item = list[index];
-                  return _buildListCard(context, item);
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const SizedBox(
-                    height: 32,
-                  );
-                },
+            )
+          : const Center(
+              child: Text(
+                '登録している誕生日はありません',
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 
-  Widget _buildListCard(BuildContext context, Birthday item) {
+  Widget _birthdayListCard(
+    BuildContext context,
+    BirthdayStateNotifier notifier,
+    Birthday birthdayItem,
+  ) {
     return SizedBox(
       child: Stack(
         clipBehavior: Clip.none,
@@ -122,7 +107,7 @@ class BirthdayScreen extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        item.birthday,
+                        birthdayItem.name,
                         style: const TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.bold,
@@ -142,7 +127,7 @@ class BirthdayScreen extends ConsumerWidget {
                   spaceH16,
                   Align(
                     child: Text(
-                      item.name,
+                      'name',
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -172,7 +157,7 @@ class BirthdayScreen extends ConsumerWidget {
                       ),
                       spaceW8,
                       Text(
-                        item.gift,
+                        'gift',
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
@@ -209,10 +194,11 @@ class BirthdayScreen extends ConsumerWidget {
 
   Future<dynamic> _showDialog(
     BuildContext context,
+    BirthdayStateNotifier notifier,
   ) {
-    final title = TextEditingController();
-    final description = TextEditingController();
-    final limitData = TextEditingController();
+    final name = TextEditingController();
+    final birthday = TextEditingController();
+    final gift = TextEditingController();
 
     return showDialog<AlertDialog>(
       context: context,
@@ -224,7 +210,7 @@ class BirthdayScreen extends ConsumerWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextFormField(
-                  controller: title,
+                  controller: name,
                   decoration: const InputDecoration(
                     prefixIcon: Icon(Icons.person),
                     hintText: '名前',
@@ -237,7 +223,7 @@ class BirthdayScreen extends ConsumerWidget {
                   },
                 ),
                 TextFormField(
-                  controller: limitData,
+                  controller: birthday,
                   decoration: const InputDecoration(
                     prefixIcon: Icon(Icons.calendar_today),
                     hintText: '誕生日',
@@ -246,14 +232,13 @@ class BirthdayScreen extends ConsumerWidget {
                     final date = await showDatePicker(
                       context: context,
                       initialDate: DateTime.now(),
-                      firstDate: DateTime(2022),
-                      lastDate: DateTime(2023),
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime.now(),
                       helpText: '日付を選択',
-                      cancelText: 'キャンセル',
                       confirmText: '決定',
                     );
                     final formatDate = format.format(date!);
-                    limitData.text = formatDate;
+                    birthday.text = formatDate;
                   },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -263,7 +248,7 @@ class BirthdayScreen extends ConsumerWidget {
                   },
                 ),
                 TextFormField(
-                  controller: description,
+                  controller: gift,
                   decoration: const InputDecoration(
                     prefixIcon: Icon(Icons.notes),
                     hintText: '贈る予定のプレゼント',
@@ -277,7 +262,22 @@ class BirthdayScreen extends ConsumerWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    final birthdayData = format.parseStrict(birthday.text);
+                    if (_formKey.currentState!.validate()) {
+                      final newBirthday = BirthdaysCompanion(
+                        name: drift.Value(name.text),
+                        birthday: drift.Value(birthdayData),
+                        gift: drift.Value(gift.text),
+                        createdAt: drift.Value(
+                          DateTime.now(),
+                        ),
+                        updateAt: drift.Value(
+                          DateTime.now(),
+                        ),
+                      );
+                      notifier.insertBirthdayData(newBirthday);
+                      Navigator.pop(context);
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     primary: pink, //背景色

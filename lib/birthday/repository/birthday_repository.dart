@@ -8,11 +8,10 @@ final birthdayRepository = Provider(
 class BirthdayRepository {
   MyDatabase database = MyDatabase();
   Future<List<Birthday>> getAllBirthdayData() async {
-    final birthdayList = database.readAllBirthdayData;
-    return birthdayList;
+    return database.readAllBirthdayData;
   }
 
-  Future<void> insertBirthdayData(BirthdaysCompanion birthday) async {
+  Future insertBirthdayData(BirthdaysCompanion birthday) async {
     return database.writeBirthday(birthday);
   }
 
