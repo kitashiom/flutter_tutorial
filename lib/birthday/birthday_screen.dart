@@ -89,6 +89,7 @@ class BirthdayScreen extends ConsumerWidget {
     BirthdayStateNotifier notifier,
     Birthday birthdayItem,
   ) {
+    final birthday = DateFormat('Md').format(birthdayItem.birthday);
     return SizedBox(
       child: Stack(
         clipBehavior: Clip.none,
@@ -107,7 +108,7 @@ class BirthdayScreen extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        birthdayItem.name,
+                        birthday,
                         style: const TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.bold,
@@ -127,7 +128,7 @@ class BirthdayScreen extends ConsumerWidget {
                   spaceH16,
                   Align(
                     child: Text(
-                      'name',
+                      birthdayItem.name,
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -157,7 +158,7 @@ class BirthdayScreen extends ConsumerWidget {
                       ),
                       spaceW8,
                       Text(
-                        'gift',
+                        birthdayItem.gift,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
