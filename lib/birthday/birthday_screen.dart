@@ -19,6 +19,7 @@ class BirthdayScreen extends ConsumerWidget {
 
   final _formKey = GlobalKey<FormState>();
   final format = DateFormat('yyyy-MM-dd');
+  static const green = Color(0xFF377D71);
   static const pink = Color(0xffFBA1A1);
   static const spaceW8 = SizedBox(
     width: 8,
@@ -56,7 +57,8 @@ class BirthdayScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text("My friend's Birthday"),
         centerTitle: true,
-        backgroundColor: const Color(0xFF377D71),
+        backgroundColor: green,
+        elevation: 0,
         automaticallyImplyLeading: false,
       ),
       floatingActionButton: FloatingActionButton(
