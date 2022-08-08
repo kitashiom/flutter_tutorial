@@ -39,7 +39,6 @@ class BirthdayScreen extends ConsumerWidget {
         ),
         onPressed: () {
           _showDialog(context, notifier);
-          print(state.birthdayItems.length);
         },
       ),
       body: state.isReadyData
@@ -128,7 +127,9 @@ class BirthdayScreen extends ConsumerWidget {
                           PopupMenuItem(
                             value: Menu.delete,
                             child: const Text('削除'),
-                            onTap: () {},
+                            onTap: () {
+                              notifier.deleteBirthdayData(birthdayItem.id);
+                            },
                           ),
                         ],
                       ),
