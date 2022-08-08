@@ -1,6 +1,6 @@
 import 'package:axiaworks_flutter_tutorial/animation/animation_screen.dart';
 import 'package:axiaworks_flutter_tutorial/async/async_screen.dart';
-import 'package:axiaworks_flutter_tutorial/birthday/birthday_screen.dart';
+import 'package:axiaworks_flutter_tutorial/birthday/birthday_list_screen.dart';
 import 'package:axiaworks_flutter_tutorial/building/building_layout_screen.dart';
 import 'package:axiaworks_flutter_tutorial/mercari/mercari_screen.dart';
 import 'package:axiaworks_flutter_tutorial/mvvm/qiita_top_screen.dart';
