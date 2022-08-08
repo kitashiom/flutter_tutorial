@@ -63,7 +63,10 @@ class BirthdayScreen extends ConsumerWidget {
                       itemBuilder: (context, index) {
                         final birthdayItem = state.birthdayItems[index];
                         return _birthdayListCard(
-                            context, notifier, birthdayItem);
+                          context,
+                          notifier,
+                          birthdayItem,
+                        );
                       },
                       separatorBuilder: (BuildContext context, int index) {
                         return const SizedBox(
@@ -114,14 +117,20 @@ class BirthdayScreen extends ConsumerWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(
-                        height: 20,
-                        width: 25,
-                        child: IconButton(
-                          onPressed: () {},
-                          alignment: Alignment.topRight,
-                          icon: const Icon(Icons.more_horiz),
-                        ),
+                      PopupMenuButton<Menu>(
+                        itemBuilder: (BuildContext context) =>
+                            <PopupMenuEntry<Menu>>[
+                          PopupMenuItem(
+                            value: Menu.update,
+                            child: const Text('編集'),
+                            onTap: () {},
+                          ),
+                          PopupMenuItem(
+                            value: Menu.delete,
+                            child: const Text('削除'),
+                            onTap: () {},
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -292,4 +301,9 @@ class BirthdayScreen extends ConsumerWidget {
       },
     );
   }
+}
+
+enum Menu {
+  update,
+  delete,
 }
