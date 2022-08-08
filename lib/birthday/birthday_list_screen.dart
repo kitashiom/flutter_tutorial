@@ -1,12 +1,13 @@
 import 'package:axiaworks_flutter_tutorial/birthday/birthday_client_state_notifier.dart';
+import 'package:axiaworks_flutter_tutorial/birthday/birthday_screen.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/db/birthday_db.dart';
 import 'package:drift/drift.dart' as drift;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-class BirthdayScreen extends ConsumerWidget {
-  BirthdayScreen({super.key});
+class BirthdayListScreen extends ConsumerWidget {
+  BirthdayListScreen({super.key});
 
   final _formKey = GlobalKey<FormState>();
   final format = DateFormat('yyyy-MM-dd');
@@ -175,6 +176,16 @@ class BirthdayScreen extends ConsumerWidget {
                       ),
                     ],
                   ),
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (context) => BirthdayScreen(),
+                          ),
+                        );
+                      },
+                      child: Text('BirthdayScreen'))
                 ],
               ),
             ),
