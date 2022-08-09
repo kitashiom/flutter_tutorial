@@ -177,15 +177,19 @@ class BirthdayListScreen extends ConsumerWidget {
                     ],
                   ),
                   ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (context) => BirthdayScreen(),
-                          ),
-                        );
-                      },
-                      child: Text('BirthdayScreen'))
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (context) => BirthdayScreen(birthdayItem),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: pink, //ボタンの背景色
+                    ),
+                    child: const Text('BirthdayScreenへ'),
+                  ),
                 ],
               ),
             ),
