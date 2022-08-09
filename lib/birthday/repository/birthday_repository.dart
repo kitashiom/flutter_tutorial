@@ -11,11 +11,15 @@ class BirthdayRepository {
     return database.readAllBirthdayData;
   }
 
-  Future insertBirthdayData(BirthdaysCompanion birthday) async {
+  Future<void> insertBirthdayData(BirthdaysCompanion birthday) async {
     return database.writeBirthday(birthday);
   }
 
   Future<void> deleteBirthdayData(int id) async {
     return database.deleteBirthday(id);
+  }
+
+  Future<void> updateBirthdayData(BirthdaysCompanion birthday) async {
+    return database.updateBirthday(birthday);
   }
 }

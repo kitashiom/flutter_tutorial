@@ -62,4 +62,7 @@ class MyDatabase extends _$MyDatabase {
 
   Future<void> deleteBirthday(int id) =>
       (delete(birthdays)..where((tbl) => tbl.id.equals(id))).go();
+
+  Future<void> updateBirthday(BirthdaysCompanion birthday) =>
+      update(birthdays).replace(birthday);
 }
