@@ -97,6 +97,7 @@ class BirthdayListScreen extends ConsumerWidget {
     Birthday birthdayItem,
   ) {
     final birthday = DateFormat('Md').format(birthdayItem.birthday);
+    final age = DateTime.now().year - birthdayItem.birthday.year;
     return SizedBox(
       child: Stack(
         clipBehavior: Clip.none,
@@ -159,15 +160,15 @@ class BirthdayListScreen extends ConsumerWidget {
                     ),
                   ),
                   Row(
-                    children: const [
-                      Icon(
+                    children: [
+                      const Icon(
                         Icons.navigate_next,
                         color: pink,
                       ),
                       spaceW8,
                       Text(
-                        '21歳',
-                        style: TextStyle(
+                        '${age.toString()}歳',
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
