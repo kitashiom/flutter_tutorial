@@ -33,15 +33,6 @@ class BirthdayListScreen extends ConsumerWidget {
         elevation: 0,
         automaticallyImplyLeading: false,
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: pink,
-        child: const Icon(
-          Icons.edit,
-        ),
-        onPressed: () {
-          _showDialog(context, notifier);
-        },
-      ),
       body: state.isReadyData
           ? Container(
               height: MediaQuery.of(context).size.height,
@@ -84,6 +75,19 @@ class BirthdayListScreen extends ConsumerWidget {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: pink,
+        child: const Icon(
+          Icons.edit,
+        ),
+        onPressed: () {
+          _showDialog(
+            context: context,
+            notifier: notifier,
+            menu: Menu.write,
+          );
+        },
+      ),
     );
   }
 
@@ -118,19 +122,27 @@ class BirthdayListScreen extends ConsumerWidget {
                         ),
                       ),
                       PopupMenuButton<Menu>(
+                        onSelected: (menu) {
+                          if (menu == Menu.update) {
+                            _showDialog(
+                              context: context,
+                              notifier: notifier,
+                              menu: Menu.update,
+                              birthdayItem: birthdayItem,
+                            );
+                          } else if (menu == Menu.delete) {
+                            notifier.deleteBirthdayData(birthdayItem.id);
+                          }
+                        },
                         itemBuilder: (BuildContext context) =>
                             <PopupMenuEntry<Menu>>[
-                          PopupMenuItem(
+                          const PopupMenuItem(
                             value: Menu.update,
-                            child: const Text('編集'),
-                            onTap: () {},
+                            child: Text('編集'),
                           ),
-                          PopupMenuItem(
+                          const PopupMenuItem(
                             value: Menu.delete,
-                            child: const Text('削除'),
-                            onTap: () {
-                              notifier.deleteBirthdayData(birthdayItem.id);
-                            },
+                            child: Text('削除'),
                           ),
                         ],
                       ),
@@ -190,6 +202,18 @@ class BirthdayListScreen extends ConsumerWidget {
                     ),
                     child: const Text('BirthdayScreenへ'),
                   ),
+                  Text(
+                    format.format(birthdayItem.createdAt),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    format.format(birthdayItem.updateAt),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -218,13 +242,26 @@ class BirthdayListScreen extends ConsumerWidget {
     );
   }
 
-  Future<dynamic> _showDialog(
-    BuildContext context,
-    BirthdayStateNotifier notifier,
-  ) {
+  Future<dynamic> _showDialog({
+    required BuildContext context,
+    required BirthdayStateNotifier notifier,
+    required Menu menu,
+    Birthday? birthdayItem,
+  }) {
     final name = TextEditingController();
     final birthday = TextEditingController();
     final gift = TextEditingController();
+    int? id;
+    DateTime? createdAt;
+
+    if (menu == Menu.update && birthdayItem != null) {
+      name.text = birthdayItem.name;
+      final formatDate = format.format(birthdayItem.birthday);
+      birthday.text = formatDate;
+      gift.text = birthdayItem.gift;
+      id = birthdayItem.id;
+      createdAt = birthdayItem.createdAt;
+    }
 
     return showDialog<AlertDialog>(
       context: context,
@@ -287,28 +324,49 @@ class BirthdayListScreen extends ConsumerWidget {
                   },
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    final birthdayData = format.parseStrict(birthday.text);
-                    if (_formKey.currentState!.validate()) {
-                      final newBirthday = BirthdaysCompanion(
-                        name: drift.Value(name.text),
-                        birthday: drift.Value(birthdayData),
-                        gift: drift.Value(gift.text),
-                        createdAt: drift.Value(
-                          DateTime.now(),
-                        ),
-                        updateAt: drift.Value(
-                          DateTime.now(),
-                        ),
-                      );
-                      notifier.insertBirthdayData(newBirthday);
-                      Navigator.pop(context);
-                    }
-                  },
+                  onPressed: menu == Menu.write
+                      ? () {
+                          final birthdayData =
+                              format.parseStrict(birthday.text);
+                          if (_formKey.currentState!.validate()) {
+                            final newBirthday = BirthdaysCompanion(
+                              name: drift.Value(name.text),
+                              birthday: drift.Value(birthdayData),
+                              gift: drift.Value(gift.text),
+                              createdAt: drift.Value(
+                                DateTime.now(),
+                              ),
+                              updateAt: drift.Value(
+                                DateTime.now(),
+                              ),
+                            );
+                            notifier.insertBirthdayData(newBirthday);
+                            Navigator.pop(context);
+                          }
+                        }
+                      : () {
+                          final birthdayData =
+                              format.parseStrict(birthday.text);
+                          if (_formKey.currentState!.validate()) {
+                            final newBirthday = BirthdaysCompanion(
+                              id: drift.Value(id!),
+                              name: drift.Value(name.text),
+                              birthday: drift.Value(birthdayData),
+                              gift: drift.Value(gift.text),
+                              createdAt: drift.Value(createdAt!),
+                              updateAt: drift.Value(
+                                DateTime.now(),
+                              ),
+                            );
+                            notifier.updateBirthdayData(newBirthday);
+                            Navigator.pop(context);
+                          }
+                        },
                   style: ElevatedButton.styleFrom(
                     primary: pink, //背景色
                   ),
-                  child: const Text('保存'),
+                  child:
+                      menu == Menu.write ? const Text('保存') : const Text('更新'),
                 )
               ],
             ),
@@ -320,6 +378,7 @@ class BirthdayListScreen extends ConsumerWidget {
 }
 
 enum Menu {
+  write,
   update,
   delete,
 }

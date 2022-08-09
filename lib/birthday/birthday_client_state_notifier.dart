@@ -44,4 +44,9 @@ class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
     await _repository.deleteBirthdayData(id);
     await getBirthdayData();
   }
+
+  Future<void> updateBirthdayData(BirthdaysCompanion birthday) async {
+    await _repository.updateBirthdayData(birthday);
+    await getBirthdayData();
+  }
 }
