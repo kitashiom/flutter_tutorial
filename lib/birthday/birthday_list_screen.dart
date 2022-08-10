@@ -1,3 +1,4 @@
+import 'package:age_calculator/age_calculator.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/birthday_client_state_notifier.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/birthday_screen.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/db/birthday_db.dart';
@@ -99,7 +100,7 @@ class BirthdayListScreen extends ConsumerWidget {
     Birthday birthdayItem,
   ) {
     final birthday = DateFormat('Md').format(birthdayItem.birthday);
-    final nextAge = now.year - birthdayItem.birthday.year + 1;
+    final nextAge = AgeCalculator.age(birthdayItem.birthday).years + 1;
 
     return SizedBox(
       child: Stack(
