@@ -14,16 +14,54 @@ class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
   }
 
   final _repository = BirthdayRepository();
+
   Future<void> getBirthdayData() async {
     state = state.copyWith(isLoading: true);
 
     final birthdays = await _repository.getAllBirthdayData();
+    final birthdayList = <Birthday>[];
+    final tempList = <Birthday>[];
+    final now = DateTime.now();
 
+    for (final item in birthdays) {
+      final birthday = item.birthday;
+      // 誕生年を現在の年に変換
+      final birthdayItem = item.copyWith(
+        birthday: DateTime(
+          now.year,
+          birthday.month,
+          birthday.day,
+        ),
+      );
+      // 一時リスト（tempList）に追加＆日付順に並び替え
+      tempList
+        ..add(birthdayItem)
+        ..sort((a, b) => a.birthday.compareTo(b.birthday));
+    }
+
+    for (final item in tempList) {
+      //日付が今より過去でなければ、birthdayListに追加
+      if (item.birthday.isBefore(now) == false) {
+        //誕生年を元の年に戻す
+        final item1 = birthdays.firstWhere((element) => element.id == item.id);
+        birthdayList.add(item.copyWith(birthday: item1.birthday));
+      }
+    }
+    for (final item in tempList) {
+      //日付が今より過去だったら、birthdayListに追加
+      if (item.birthday.isBefore(now) == true) {
+        //誕生年を元の年に戻す
+        final item1 = birthdays.firstWhere((element) => element.id == item.id);
+        birthdayList.add(item.copyWith(birthday: item1.birthday));
+      }
+    }
+
+    //stateの変更
     if (birthdays.isNotEmpty) {
       state = state.copyWith(
         isLoading: false,
         isReadyData: true,
-        birthdayItems: birthdays,
+        birthdayItems: birthdayList,
       );
     } else {
       state = state.copyWith(
