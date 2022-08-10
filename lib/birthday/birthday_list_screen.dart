@@ -9,8 +9,10 @@ import 'package:intl/intl.dart';
 class BirthdayListScreen extends ConsumerWidget {
   BirthdayListScreen({super.key});
 
+  List<Birthday> list = [];
   final _formKey = GlobalKey<FormState>();
   final format = DateFormat('yyyy-MM-dd');
+  final now = DateTime.now();
   static const green = Color(0xFF377D71);
   static const pink = Color(0xffFBA1A1);
   static const spaceW8 = SizedBox(
@@ -97,7 +99,8 @@ class BirthdayListScreen extends ConsumerWidget {
     Birthday birthdayItem,
   ) {
     final birthday = DateFormat('Md').format(birthdayItem.birthday);
-    final age = DateTime.now().year - birthdayItem.birthday.year;
+    final nextAge = now.year - birthdayItem.birthday.year + 1;
+
     return SizedBox(
       child: Stack(
         clipBehavior: Clip.none,
@@ -167,7 +170,7 @@ class BirthdayListScreen extends ConsumerWidget {
                       ),
                       spaceW8,
                       Text(
-                        '${age.toString()}歳',
+                        '${nextAge.toString()}歳',
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
@@ -202,6 +205,12 @@ class BirthdayListScreen extends ConsumerWidget {
                       primary: pink, //ボタンの背景色
                     ),
                     child: const Text('BirthdayScreenへ'),
+                  ),
+                  Text(
+                    format.format(birthdayItem.birthday),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   Text(
                     format.format(birthdayItem.createdAt),
