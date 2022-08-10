@@ -22,6 +22,7 @@ class BirthdayScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(birthdayStateNotifierProvider);
     final notifier = ref.watch(birthdayStateNotifierProvider.notifier);
+    final message = TextEditingController();
     final birthday = DateFormat('Md').format(birthdayItem.birthday);
     final year = DateFormat('y').format(birthdayItem.birthday);
     final nowY = DateFormat('y').format(DateTime.now());
@@ -135,6 +136,21 @@ class BirthdayScreen extends ConsumerWidget {
                             ),
                           ),
                         ],
+                      ),
+                      TextFormField(
+                        controller: message,
+                        decoration: InputDecoration(
+                          labelText: 'メッセージを入力してください',
+                          hintText: '${birthdayItem.name}へ\nお誕生日おめでとう！',
+                        ),
+                        maxLines: 3,
+                        keyboardType: TextInputType.multiline,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return '値を入力してください';
+                          }
+                          return null;
+                        },
                       ),
                       ElevatedButton(
                         onPressed: () {},
