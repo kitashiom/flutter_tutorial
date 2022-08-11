@@ -100,6 +100,7 @@ class BirthdayListScreen extends ConsumerWidget {
     Birthday birthdayItem,
   ) {
     final birthday = DateFormat('Md').format(birthdayItem.birthday);
+    final age = AgeCalculator.age(birthdayItem.birthday).years;
     final nextAge = AgeCalculator.age(birthdayItem.birthday).years + 1;
 
     return SizedBox(
@@ -171,7 +172,7 @@ class BirthdayListScreen extends ConsumerWidget {
                       ),
                       spaceW8,
                       Text(
-                        '${nextAge.toString()}歳',
+                        '${nextAge.toString()}歳 (現在$age歳)',
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
@@ -235,16 +236,19 @@ class BirthdayListScreen extends ConsumerWidget {
             child: Container(
               width: 100,
               height: 100,
-              decoration: const BoxDecoration(
-                color: Colors.white,
+              decoration: BoxDecoration(
+                color: pink,
                 shape: BoxShape.circle,
+                border: Border.all(color: Colors.white, width: 8),
               ),
-              child: const Text(
-                '👩🏻',
-                style: TextStyle(
-                  fontSize: 48,
+              child: const Center(
+                child: Text(
+                  '👩🏻',
+                  style: TextStyle(
+                    fontSize: 48,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
               ),
             ),
           ),
