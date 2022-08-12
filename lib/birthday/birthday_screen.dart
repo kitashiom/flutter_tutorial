@@ -5,9 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 class BirthdayScreen extends ConsumerWidget {
-  BirthdayScreen(this.birthdayItem, {super.key});
+  BirthdayScreen(this.birthdayItem, this.age, {super.key});
 
   final Birthday birthdayItem;
+  final int age;
   final format = DateFormat('yyyy-MM-dd');
   static const green = Color(0xFF377D71);
   static const pink = Color(0xffFBA1A1);
@@ -36,7 +37,7 @@ class BirthdayScreen extends ConsumerWidget {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-        color: const Color(0xffE1ECEC),
+        color: green,
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,19 +78,19 @@ class BirthdayScreen extends ConsumerWidget {
                           color: pink,
                           shape: BoxShape.circle,
                         ),
-                        child: const Center(
+                        child: Center(
                           child: Text(
-                            '👩🏻',
-                            style: TextStyle(
+                            birthdayItem.icon,
+                            style: const TextStyle(
                               fontSize: 48,
                             ),
                             textAlign: TextAlign.center,
                           ),
                         ),
                       ),
-                      const Text(
-                        '25歳',
-                        style: TextStyle(
+                      Text(
+                        '$age歳',
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
