@@ -77,12 +77,14 @@ class BirthdayScreen extends ConsumerWidget {
                           color: pink,
                           shape: BoxShape.circle,
                         ),
-                        child: const Text(
-                          '👩🏻',
-                          style: TextStyle(
-                            fontSize: 48,
+                        child: const Center(
+                          child: Text(
+                            '👩🏻',
+                            style: TextStyle(
+                              fontSize: 48,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
-                          textAlign: TextAlign.center,
                         ),
                       ),
                       const Text(
