@@ -241,7 +241,7 @@ class BirthdayListScreen extends ConsumerWidget {
                             context,
                             MaterialPageRoute<void>(
                               builder: (context) =>
-                                  BirthdayScreen(birthdayItem),
+                                  BirthdayScreen(birthdayItem, nextAge),
                             ),
                           );
                         },
@@ -361,7 +361,9 @@ class BirthdayListScreen extends ConsumerWidget {
                   onTap: () async {
                     final date = await showDatePicker(
                       context: context,
-                      initialDate: DateTime.now(),
+                      initialDate: menu == Menu.update && birthdayItem != null
+                          ? birthdayItem.birthday
+                          : DateTime.now(),
                       firstDate: DateTime(1900),
                       lastDate: DateTime.now(),
                       helpText: '日付を選択',
