@@ -252,24 +252,24 @@ class BirthdayListScreen extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  Text(
-                    birthdayItem.birthday.toString(),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    birthdayItem.createdAt.toString(),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    birthdayItem.updateAt.toString(),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  // Text(
+                  //   birthdayItem.birthday.toString(),
+                  //   style: const TextStyle(
+                  //     fontWeight: FontWeight.bold,
+                  //   ),
+                  // ),
+                  // Text(
+                  //   birthdayItem.createdAt.toString(),
+                  //   style: const TextStyle(
+                  //     fontWeight: FontWeight.bold,
+                  //   ),
+                  // ),
+                  // Text(
+                  //   birthdayItem.updateAt.toString(),
+                  //   style: const TextStyle(
+                  //     fontWeight: FontWeight.bold,
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -367,8 +367,10 @@ class BirthdayListScreen extends ConsumerWidget {
                       helpText: '日付を選択',
                       confirmText: '決定',
                     );
-                    final formatDate = format.format(date!);
-                    birthday.text = formatDate;
+                    if (date != null) {
+                      final formatDate = format.format(date);
+                      birthday.text = formatDate;
+                    }
                   },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
