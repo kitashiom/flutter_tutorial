@@ -22,6 +22,7 @@ class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
     final birthdayList = <Birthday>[];
     final tempList = <Birthday>[];
     final now = DateTime.now();
+    final nowDate = DateTime(now.year, now.month, now.day);
 
     for (final item in birthdays) {
       final birthday = item.birthday;
@@ -38,7 +39,14 @@ class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
         ..add(birthdayItem)
         ..sort((a, b) => a.birthday.compareTo(b.birthday));
     }
-
+    for (final item in tempList) {
+      //日付が今より過去でなければ、birthdayListに追加
+      if (item.birthday == nowDate) {
+        //誕生年を元の年に戻す
+        final item1 = birthdays.firstWhere((element) => element.id == item.id);
+        birthdayList.add(item.copyWith(birthday: item1.birthday));
+      }
+    }
     for (final item in tempList) {
       //日付が今より過去でなければ、birthdayListに追加
       if (item.birthday.isBefore(now) == false) {

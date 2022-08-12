@@ -99,7 +99,17 @@ class BirthdayListScreen extends ConsumerWidget {
     BirthdayStateNotifier notifier,
     Birthday birthdayItem,
   ) {
-    final birthday = DateFormat('Md').format(birthdayItem.birthday);
+    final formatBirthday = DateFormat('Md').format(birthdayItem.birthday);
+    final nowYearBirthday = DateTime(
+      now.year,
+      birthdayItem.birthday.month,
+      birthdayItem.birthday.day,
+    );
+    final nowDate = DateTime(
+      now.year,
+      now.month,
+      now.day,
+    );
     final age = AgeCalculator.age(birthdayItem.birthday).years;
     final nextAge = AgeCalculator.age(birthdayItem.birthday).years + 1;
 
@@ -121,7 +131,7 @@ class BirthdayListScreen extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        birthday,
+                        formatBirthday,
                         style: const TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.bold,
@@ -194,38 +204,44 @@ class BirthdayListScreen extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (context) => BirthdayScreen(birthdayItem),
+                  Visibility(
+                    visible: nowYearBirthday == nowDate,
+                    child: Center(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (context) =>
+                                  BirthdayScreen(birthdayItem),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: pink, //ボタンの背景色
                         ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: pink, //ボタンの背景色
-                    ),
-                    child: const Text('BirthdayScreenへ'),
-                  ),
-                  Text(
-                    format.format(birthdayItem.birthday),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
+                        child: const Text('BirthdayScreenへ'),
+                      ),
                     ),
                   ),
-                  Text(
-                    format.format(birthdayItem.createdAt),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    format.format(birthdayItem.updateAt),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  // Text(
+                  //   format.format(birthdayItem.birthday),
+                  //   style: const TextStyle(
+                  //     fontWeight: FontWeight.bold,
+                  //   ),
+                  // ),
+                  // Text(
+                  //   format.format(birthdayItem.createdAt),
+                  //   style: const TextStyle(
+                  //     fontWeight: FontWeight.bold,
+                  //   ),
+                  // ),
+                  // Text(
+                  //   format.format(birthdayItem.updateAt),
+                  //   style: const TextStyle(
+                  //     fontWeight: FontWeight.bold,
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -341,6 +357,7 @@ class BirthdayListScreen extends ConsumerWidget {
                 ElevatedButton(
                   onPressed: menu == Menu.write
                       ? () {
+                          //新規保存
                           final birthdayData =
                               format.parseStrict(birthday.text);
                           if (_formKey.currentState!.validate()) {
@@ -360,6 +377,7 @@ class BirthdayListScreen extends ConsumerWidget {
                           }
                         }
                       : () {
+                          //更新
                           final birthdayData =
                               format.parseStrict(birthday.text);
                           if (_formKey.currentState!.validate()) {
