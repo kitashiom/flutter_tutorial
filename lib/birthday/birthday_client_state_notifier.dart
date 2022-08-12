@@ -1,6 +1,7 @@
 import 'package:axiaworks_flutter_tutorial/birthday/db/birthday_db.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/repository/birthday_repository.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/state/birthday_client_state.dart';
+import 'package:drift/drift.dart' as drift;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final birthdayStateNotifierProvider =
@@ -23,7 +24,11 @@ class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
     final tempList = <Birthday>[];
     final now = DateTime.now();
     final nowDate = DateTime(now.year, now.month, now.day);
+    var isBirthday = false;
 
+    ///誕生年を今の年に変換↓
+    ///リスト追加・日付順に並び替え↓
+    ///誕生年を戻して、当日誕生日→今年誕生日→来年誕生日の順にリストに追加
     for (final item in birthdays) {
       final birthday = item.birthday;
       // 誕生年を現在の年に変換
@@ -40,8 +45,9 @@ class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
         ..sort((a, b) => a.birthday.compareTo(b.birthday));
     }
     for (final item in tempList) {
-      //日付が今より過去でなければ、birthdayListに追加
+      //日付が今日だったら、birthdayListに追加
       if (item.birthday == nowDate) {
+        isBirthday = true;
         //誕生年を元の年に戻す
         final item1 = birthdays.firstWhere((element) => element.id == item.id);
         birthdayList.add(item.copyWith(birthday: item1.birthday));
@@ -56,8 +62,8 @@ class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
       }
     }
     for (final item in tempList) {
-      //日付が今より過去だったら、birthdayListに追加
-      if (item.birthday.isBefore(now) == true) {
+      //日付が今日でないかつ、今より過去だったら、birthdayListに追加
+      if (item.birthday != nowDate && item.birthday.isBefore(now) == true) {
         //誕生年を元の年に戻す
         final item1 = birthdays.firstWhere((element) => element.id == item.id);
         birthdayList.add(item.copyWith(birthday: item1.birthday));
@@ -65,7 +71,14 @@ class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
     }
 
     //stateの変更
-    if (birthdays.isNotEmpty) {
+    if (birthdays.isNotEmpty && isBirthday == true) {
+      state = state.copyWith(
+        isLoading: false,
+        isReadyData: true,
+        isTodayBirthday: true,
+        birthdayItems: birthdayList,
+      );
+    } else if (birthdays.isNotEmpty && isBirthday == false) {
       state = state.copyWith(
         isLoading: false,
         isReadyData: true,
@@ -94,5 +107,41 @@ class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
   Future<void> updateBirthdayData(BirthdaysCompanion birthday) async {
     await _repository.updateBirthdayData(birthday);
     await getBirthdayData();
+  }
+
+  Future<void> changeIcon(Birthday birthdayItem) async {
+    final iconList = <String>[
+      '👩🏻',
+      '🧑🏻',
+      '👶🏻',
+      '👧🏻',
+      '👦🏻',
+      '👩🏻‍🦱',
+      '👨🏻',
+      '👵🏻',
+      '👴🏻',
+    ];
+
+    var index = 0;
+    final currentIndex = iconList.indexOf(birthdayItem.icon);
+
+    if (currentIndex + 1 < iconList.length) {
+      index = currentIndex + 1;
+    } else {
+      index = 0;
+    }
+
+    final newBirthday = BirthdaysCompanion(
+      id: drift.Value(birthdayItem.id),
+      icon: drift.Value(iconList[index]),
+      name: drift.Value(birthdayItem.name),
+      birthday: drift.Value(birthdayItem.birthday),
+      gift: drift.Value(birthdayItem.gift),
+      createdAt: drift.Value(birthdayItem.createdAt),
+      updateAt: drift.Value(
+        DateTime.now(),
+      ),
+    );
+    await updateBirthdayData(newBirthday);
   }
 }

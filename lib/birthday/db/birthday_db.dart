@@ -14,6 +14,8 @@ class Birthdays extends Table {
   // 主キー（autoIncrementで自動的にIDを設置する）
   IntColumn get id => integer().autoIncrement()();
 
+  TextColumn get icon => text()();
+
   TextColumn get name => text().withLength(min: 1, max: 15)();
 
   DateTimeColumn get birthday => dateTime()();

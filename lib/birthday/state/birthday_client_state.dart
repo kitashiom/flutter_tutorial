@@ -8,6 +8,7 @@ class BirthdayClientState with _$BirthdayClientState {
   const factory BirthdayClientState({
     @Default(false) bool isLoading,
     @Default(false) bool isReadyData,
+    @Default(false) bool isTodayBirthday,
     @Default([Birthday]) List<Birthday> birthdayItems,
   }) = _BirthdayClientState;
 }
