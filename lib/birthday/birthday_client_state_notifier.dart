@@ -125,7 +125,7 @@ class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
     var index = 0;
     final currentIndex = iconList.indexOf(birthdayItem.icon);
 
-    if (currentIndex + 1 < iconList.length) {
+    if (currentIndex < iconList.length - 1) {
       index = currentIndex + 1;
     } else {
       index = 0;
