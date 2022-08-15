@@ -102,6 +102,7 @@ class BirthdayListScreen extends ConsumerWidget {
                 context: context,
                 notifier: notifier,
                 birthdayItem: birthdayItem,
+                index: index,
               );
             },
             separatorBuilder: (BuildContext context, int index) {
@@ -119,17 +120,16 @@ class BirthdayListScreen extends ConsumerWidget {
     required BuildContext context,
     required BirthdayStateNotifier notifier,
     required Birthday birthdayItem,
+    required int index,
   }) {
     final formatDate = DateFormat('Md').format(birthdayItem.birthday);
     final formatYear = DateFormat('y').format(birthdayItem.birthday);
     final birthdayDate = DateTime(
-      now.year,
-      birthdayItem.birthday.month,
-      birthdayItem.birthday.day,
-    );
+        now.year, birthdayItem.birthday.month, birthdayItem.birthday.day);
     final nowDate = DateTime(now.year, now.month, now.day);
     final age = AgeCalculator.age(birthdayItem.birthday).years;
     final nextAge = AgeCalculator.age(birthdayItem.birthday).years + 1;
+    final date = birthdayDate.difference(nowDate).inDays;
 
     return SizedBox(
       child: Stack(
@@ -157,10 +157,13 @@ class BirthdayListScreen extends ConsumerWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Text(
-                            '($formatYear)',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
+                          Visibility(
+                            visible: index == 0,
+                            child: Text(
+                              '残り$date日',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
