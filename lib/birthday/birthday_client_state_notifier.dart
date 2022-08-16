@@ -3,6 +3,7 @@ import 'package:axiaworks_flutter_tutorial/birthday/repository/birthday_reposito
 import 'package:axiaworks_flutter_tutorial/birthday/state/birthday_client_state.dart';
 import 'package:drift/drift.dart' as drift;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:share_plus/share_plus.dart';
 
 final birthdayStateNotifierProvider =
     StateNotifierProvider<BirthdayStateNotifier, BirthdayClientState>(
@@ -143,5 +144,13 @@ class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
       ),
     );
     await updateBirthdayData(newBirthday);
+  }
+
+  Future<void> shareMessage(
+    String text,
+  ) async {
+    await Share.share(
+      text,
+    );
   }
 }
