@@ -156,12 +156,15 @@ class BirthdayScreen extends ConsumerWidget {
                         },
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          notifier.shareMessage(message.text);
+                        },
                         style: ElevatedButton.styleFrom(
                           primary: pink, //ボタンの背景色
                         ),
                         child: Text(
                           '${birthdayItem.name}に\nメッセージを送る',
+                          textAlign: TextAlign.center,
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
