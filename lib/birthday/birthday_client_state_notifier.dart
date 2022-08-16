@@ -1,3 +1,4 @@
+import 'package:axiaworks_flutter_tutorial/birthday/constants.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/db/birthday_db.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/repository/birthday_repository.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/state/birthday_client_state.dart';
@@ -110,6 +111,15 @@ class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
     await getBirthdayData();
   }
 
+  int calculateCountdown(DateTime birthday) {
+    //誕生日が未来だったら
+    if (birthday.isBefore(nowDate) == false) {
+      return birthday.difference(nowDate).inDays;
+    } else {
+      return 365 + birthday.difference(nowDate).inDays;
+    }
+  }
+
   Future<void> changeIcon(Birthday birthdayItem) async {
     final iconList = <String>[
       '👩🏻',
@@ -146,9 +156,7 @@ class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
     await updateBirthdayData(newBirthday);
   }
 
-  Future<void> shareMessage(
-    String text,
-  ) async {
+  Future<void> shareMessage(String text) async {
     await Share.share(
       text,
     );
