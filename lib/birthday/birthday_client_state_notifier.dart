@@ -24,13 +24,11 @@ class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
     final birthdays = await _repository.getAllBirthdayData();
     final birthdayList = <Birthday>[];
     final tempList = <Birthday>[];
-    final now = DateTime.now();
-    final nowDate = DateTime(now.year, now.month, now.day);
     var isBirthday = false;
 
-    ///誕生年を今の年に変換↓
-    ///リスト追加・日付順に並び替え↓
-    ///誕生年を戻して、当日誕生日→今年誕生日→来年誕生日の順にリストに追加
+    /// 誕生年を今の年に変換↓
+    /// リスト追加・日付順に並び替え↓
+    /// 1.今日誕生日 2.今年の誕生日が過ぎてない人 3.今年の誕生日が過ぎた人の順にリストに追加
     for (final item in birthdays) {
       final birthday = item.birthday;
       // 誕生年を現在の年に変換
@@ -41,13 +39,13 @@ class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
           birthday.day,
         ),
       );
-      // 一時リスト（tempList）に追加＆日付順に並び替え
+      // 日付順に並び替えるために一時的にリスト（tempList）に追加
       tempList
         ..add(birthdayItem)
         ..sort((a, b) => a.birthday.compareTo(b.birthday));
     }
     for (final item in tempList) {
-      //日付が今日だったら、birthdayListに追加
+      //1.今日誕生日の人をbirthdayListに追加
       if (item.birthday == nowDate) {
         isBirthday = true;
         //誕生年を元の年に戻す
@@ -56,7 +54,7 @@ class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
       }
     }
     for (final item in tempList) {
-      //日付が今より過去でなければ、birthdayListに追加
+      //2.日付が今より過去でなければ、birthdayListに追加
       if (item.birthday.isBefore(now) == false) {
         //誕生年を元の年に戻す
         final item1 = birthdays.firstWhere((element) => element.id == item.id);
@@ -64,7 +62,7 @@ class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
       }
     }
     for (final item in tempList) {
-      //日付が今日でないかつ、今より過去だったら、birthdayListに追加
+      //3.日付が今日でないかつ、今日より過去だったら、birthdayListに追加
       if (item.birthday != nowDate && item.birthday.isBefore(now) == true) {
         //誕生年を元の年に戻す
         final item1 = birthdays.firstWhere((element) => element.id == item.id);
@@ -74,13 +72,15 @@ class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
 
     //stateの変更
     if (birthdays.isNotEmpty && isBirthday == true) {
+      //アイテムがある・今日誕生日の人がいる場合
       state = state.copyWith(
         isLoading: false,
         isReadyData: true,
-        isTodayBirthday: true,
+        isTodayBirthday: isBirthday,
         birthdayItems: birthdayList,
       );
     } else if (birthdays.isNotEmpty && isBirthday == false) {
+      //アイテムがある・今日誕生日の人がいない場合
       state = state.copyWith(
         isLoading: false,
         isReadyData: true,
@@ -111,12 +111,13 @@ class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
     await getBirthdayData();
   }
 
+  //残日数計算
   int calculateCountdown(DateTime birthday) {
-    //今の年で誕生日が過ぎてたら
+    //今年、誕生日が過ぎてる場合
     if (birthday.isBefore(nowDate)) {
       return birthday.difference(nowDate).inDays + 365;
     } else {
-      //今の年で誕生日が過ぎてなかったら
+      //今年、誕生日が過ぎてない場合
       return birthday.difference(nowDate).inDays;
     }
   }
@@ -143,6 +144,7 @@ class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
       index = 0;
     }
 
+    //データを更新
     final newBirthday = BirthdaysCompanion(
       id: drift.Value(birthdayItem.id),
       icon: drift.Value(iconList[index]),
