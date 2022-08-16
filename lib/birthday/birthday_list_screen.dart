@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:age_calculator/age_calculator.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/birthday_client_state_notifier.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/birthday_screen.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/common_icon.dart';
+import 'package:axiaworks_flutter_tutorial/birthday/common_text.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/constants.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/db/birthday_db.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/menu_enum.dart';
@@ -43,11 +46,11 @@ class BirthdayListScreen extends ConsumerWidget {
     required BirthdayClientState state,
   }) {
     return AppBar(
-      title: Text(
-        state.isTodayBirthday == false
+      title: CommonText(
+        text: state.isTodayBirthday == false
             ? 'Birthday List'
             : "🎉 Today's Birthday 🎉",
-        style: const TextStyle(fontWeight: FontWeight.bold),
+        textSize: 24,
       ),
       centerTitle: true,
       backgroundColor: green,
@@ -74,7 +77,7 @@ class BirthdayListScreen extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          spaceH24,
+          spaceH32,
           ListView.separated(
             itemCount: state.birthdayItems.length,
             shrinkWrap: true,
@@ -90,9 +93,7 @@ class BirthdayListScreen extends ConsumerWidget {
               );
             },
             separatorBuilder: (BuildContext context, int index) {
-              return const SizedBox(
-                height: 32,
-              );
+              return spaceH32;
             },
           ),
         ],
@@ -107,17 +108,23 @@ class BirthdayListScreen extends ConsumerWidget {
     required Birthday birthdayItem,
     required int index,
   }) {
+    final iconPosition = (MediaQuery.of(context).size.width - 116) / 2;
+    //月日のみ
     final date = formatDays.format(birthdayItem.birthday);
+    //年のみ
     final year = formatYear.format(birthdayItem.birthday);
-    final birthdayDate = DateTime(
-      now.year,
+    //誕生年を現在に変換したもの
+    final nowYearBirthday = DateTime(
+      nowDate.year,
       birthdayItem.birthday.month,
       birthdayItem.birthday.day,
     );
-    final nowDate = DateTime(now.year, now.month, now.day);
+    //今の年齢
     final age = AgeCalculator.age(birthdayItem.birthday).years;
+    //次の年齢
     final nextAge = AgeCalculator.age(birthdayItem.birthday).years + 1;
-    final countdown = birthdayDate.difference(nowDate).inDays;
+    //残日数（今日の日付と年変換した誕生日の差分）
+    final countdown = nowYearBirthday.difference(nowDate).inDays;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,7 +132,7 @@ class BirthdayListScreen extends ConsumerWidget {
         Visibility(
           visible: !state.isTodayBirthday && index == 0,
           child: Text(
-            '　残り$countdown日',
+            '　残り$date日',
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
@@ -151,19 +158,14 @@ class BirthdayListScreen extends ConsumerWidget {
                       children: [
                         Column(
                           children: [
-                            Text(
-                              date,
-                              style: const TextStyle(
-                                fontSize: 32,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            CommonText(
+                              text: date,
+                              textSize: 32,
                             ),
-                            Text(
-                              '($year)',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                            CommonText(
+                              text: '($year)',
+                              textSize: 16,
+                            )
                           ],
                         ),
                         PopupMenuButton<Menu>(
@@ -193,48 +195,35 @@ class BirthdayListScreen extends ConsumerWidget {
                         ),
                       ],
                     ),
-                    spaceH16,
                     Align(
-                      child: Text(
-                        birthdayItem.name,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      child: CommonText(
+                        text: birthdayItem.name,
+                        textSize: 18,
                       ),
                     ),
+                    spaceH16,
                     Row(
                       children: [
-                        const Icon(
-                          Icons.navigate_next,
-                          color: pink,
-                        ),
+                        nextIcon,
                         spaceW8,
-                        Text(
-                          '$age歳 → $nextAge歳',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        CommonText(
+                          text: '$age歳 → $nextAge歳',
+                          textSize: 16,
                         ),
                       ],
                     ),
                     Row(
                       children: [
-                        const Icon(
-                          Icons.redeem,
-                          color: pink,
-                        ),
+                        redeemIcon,
                         spaceW8,
-                        Text(
-                          birthdayItem.gift,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        CommonText(
+                          text: birthdayItem.gift,
+                          textSize: 16,
                         ),
                       ],
                     ),
                     Visibility(
-                      visible: birthdayDate == nowDate,
+                      visible: nowYearBirthday == nowDate,
                       child: Center(
                         child: ElevatedButton(
                           onPressed: () {
@@ -259,15 +248,32 @@ class BirthdayListScreen extends ConsumerWidget {
             ),
             Positioned(
               top: -30,
-              left: (MediaQuery.of(context).size.width - 116) / 2,
+              left: iconPosition,
               child: GestureDetector(
                 onTap: () {
                   notifier.changeIcon(birthdayItem);
                 },
-                child: CommonIcon(
-                  icon: birthdayItem.icon,
-                  iconSize: 48,
-                  circleSize: 100,
+                child: Stack(
+                  children: [
+                    CommonIcon(
+                      icon: birthdayItem.icon,
+                      iconSize: 48,
+                      circleSize: 100,
+                    ),
+                    Visibility(
+                      visible: nowYearBirthday == nowDate,
+                      child: Positioned(
+                        top: -10,
+                        child: Transform.rotate(
+                          angle: -35 * pi / 180, //60度
+                          child: const Text(
+                            '👑',
+                            style: TextStyle(fontSize: 32),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -354,8 +360,8 @@ class BirthdayListScreen extends ConsumerWidget {
                       confirmText: '決定',
                     );
                     if (datetime != null) {
-                      final date = formatDefault.format(datetime);
-                      birthday.text = date;
+                      final formatDate = formatDefault.format(datetime);
+                      birthday.text = formatDate;
                     }
                   },
                   validator: (value) {

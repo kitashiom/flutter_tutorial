@@ -1,5 +1,6 @@
 import 'package:axiaworks_flutter_tutorial/birthday/birthday_client_state_notifier.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/common_icon.dart';
+import 'package:axiaworks_flutter_tutorial/birthday/common_text.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/constants.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/db/birthday_db.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class BirthdayScreen extends ConsumerWidget {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+        padding: const EdgeInsets.all(8),
         color: green,
         child: SingleChildScrollView(
           child: Column(
@@ -41,13 +42,7 @@ class BirthdayScreen extends ConsumerWidget {
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
-                      Text(
-                        birthday,
-                        style: const TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      CommonText(text: birthday, textSize: 32),
                       const Text(
                         'Happy Birthday to',
                         style: TextStyle(
@@ -106,10 +101,7 @@ class BirthdayScreen extends ConsumerWidget {
                       ),
                       Row(
                         children: [
-                          const Icon(
-                            Icons.redeem,
-                            color: pink,
-                          ),
+                          nextIcon,
                           spaceW8,
                           Text(
                             birthdayItem.gift,
