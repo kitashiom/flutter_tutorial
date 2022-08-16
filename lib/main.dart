@@ -124,7 +124,7 @@ class MyHomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (context) => BirthdayListScreen(),
+                    builder: (context) => const BirthdayListScreen(),
                   ),
                 );
               },

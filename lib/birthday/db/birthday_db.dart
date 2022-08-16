@@ -39,6 +39,7 @@ LazyDatabase _openConnection() {
 // 中のメソッドは外向けに公開するメソッドとその動きを定義している。
 @DriftDatabase(tables: [Birthdays])
 class MyDatabase extends _$MyDatabase {
+  MyDatabase() : super(_openConnection());
   static MyDatabase? _instance;
 
   static MyDatabase getInstance() {
@@ -48,8 +49,6 @@ class MyDatabase extends _$MyDatabase {
     }
     return _instance!;
   }
-
-  MyDatabase() : super(_openConnection());
 
   @override
   int get schemaVersion => 1;

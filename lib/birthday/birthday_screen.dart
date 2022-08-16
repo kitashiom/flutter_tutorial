@@ -46,12 +46,17 @@ class BirthdayScreen extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CommonText(text: birthday, textSize: 32),
+                      CommonText(
+                        text: birthday,
+                        textSize: 32,
+                      ),
                       Column(
                         children: [
                           spaceH16,
                           const CommonText(
-                              text: 'Happy Birthday to', textSize: 24),
+                            text: 'Happy Birthday to',
+                            textSize: 24,
+                          ),
                           spaceH8,
                           Text(
                             birthdayItem.name,
