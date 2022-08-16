@@ -124,7 +124,6 @@ class BirthdayListScreen extends ConsumerWidget {
     //次の年齢
     final nextAge = AgeCalculator.age(birthdayItem.birthday).years + 1;
     //残日数（今日の日付と年変換した誕生日の差分）
-    final countdown = nowYearBirthday.difference(nowDate).inDays;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,7 +131,7 @@ class BirthdayListScreen extends ConsumerWidget {
         Visibility(
           visible: !state.isTodayBirthday && index == 0,
           child: Text(
-            '　残り$date日',
+            '　残り${notifier.calculateCountdown(nowYearBirthday)}日',
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
@@ -388,9 +387,9 @@ class BirthdayListScreen extends ConsumerWidget {
                   onPressed: menu == Menu.write
                       ? () {
                           ///新規保存
-                          final birthdayData =
-                              formatDefault.parseStrict(birthday.text);
                           if (formKey.currentState!.validate()) {
+                            final birthdayData =
+                                formatDefault.parseStrict(birthday.text);
                             final newBirthday = BirthdaysCompanion(
                               icon: const drift.Value('👩🏻'),
                               name: drift.Value(name.text),
@@ -405,10 +404,10 @@ class BirthdayListScreen extends ConsumerWidget {
                         }
                       : () {
                           ///更新
-                          final birthdayData =
-                              formatDefault.parseStrict(birthday.text);
                           if (formKey.currentState!.validate() &&
                               birthdayItem != null) {
+                            final birthdayData =
+                                formatDefault.parseStrict(birthday.text);
                             final newBirthday = BirthdaysCompanion(
                               id: drift.Value(birthdayItem.id),
                               icon: drift.Value(birthdayItem.icon),

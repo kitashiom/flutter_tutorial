@@ -7,6 +7,7 @@ const pink = Color(0xffFBA1A1);
 
 //space(SizedBox)
 const spaceW8 = SizedBox(width: 8);
+const spaceW16 = SizedBox(width: 16);
 const spaceH8 = SizedBox(height: 8);
 const spaceH16 = SizedBox(height: 16);
 const spaceH24 = SizedBox(height: 24);
