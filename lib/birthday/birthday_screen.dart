@@ -1,32 +1,23 @@
 import 'package:axiaworks_flutter_tutorial/birthday/birthday_client_state_notifier.dart';
+import 'package:axiaworks_flutter_tutorial/birthday/common_icon.dart';
+import 'package:axiaworks_flutter_tutorial/birthday/constants.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/db/birthday_db.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 class BirthdayScreen extends ConsumerWidget {
-  BirthdayScreen(this.birthdayItem, this.age, {super.key});
+  const BirthdayScreen(this.birthdayItem, this.age, {super.key});
 
   final Birthday birthdayItem;
   final int age;
-  final format = DateFormat('yyyy-MM-dd');
-  static const green = Color(0xFF377D71);
-  static const pink = Color(0xffFBA1A1);
-  static const spaceW8 = SizedBox(
-    width: 8,
-  );
-  static const spaceH16 = SizedBox(
-    height: 16,
-  );
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(birthdayStateNotifierProvider);
     final notifier = ref.watch(birthdayStateNotifierProvider.notifier);
     final message = TextEditingController();
-    final birthday = DateFormat('Md').format(birthdayItem.birthday);
-    final year = DateFormat('y').format(birthdayItem.birthday);
-    final nowY = DateFormat('y').format(DateTime.now());
+    final birthday = formatDefault.format(birthdayItem.birthday);
+    final year = formatYear.format(birthdayItem.birthday);
+    final nowY = formatYear.format(now);
 
     return Scaffold(
       appBar: AppBar(
@@ -71,22 +62,10 @@ class BirthdayScreen extends ConsumerWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Container(
-                        width: 100,
-                        height: 100,
-                        decoration: const BoxDecoration(
-                          color: pink,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Center(
-                          child: Text(
-                            birthdayItem.icon,
-                            style: const TextStyle(
-                              fontSize: 48,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
+                      CommonIcon(
+                        icon: birthdayItem.icon,
+                        iconSize: 72,
+                        circleSize: 160,
                       ),
                       Text(
                         '$age歳',

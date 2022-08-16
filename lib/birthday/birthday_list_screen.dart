@@ -1,25 +1,17 @@
 import 'package:age_calculator/age_calculator.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/birthday_client_state_notifier.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/birthday_screen.dart';
+import 'package:axiaworks_flutter_tutorial/birthday/common_icon.dart';
+import 'package:axiaworks_flutter_tutorial/birthday/constants.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/db/birthday_db.dart';
+import 'package:axiaworks_flutter_tutorial/birthday/menu_enum.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/state/birthday_client_state.dart';
 import 'package:drift/drift.dart' as drift;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 class BirthdayListScreen extends ConsumerWidget {
-  BirthdayListScreen({super.key});
-
-  final _formKey = GlobalKey<FormState>();
-  final format = DateFormat('yyyy-MM-dd');
-  final now = DateTime.now();
-  static const green = Color(0xFF377D71);
-  static const pink = Color(0xffFBA1A1);
-  static const spaceW8 = SizedBox(width: 8);
-  static const spaceH8 = SizedBox(height: 8);
-  static const spaceH16 = SizedBox(height: 16);
-  static const spaceH24 = SizedBox(height: 32);
+  const BirthdayListScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -115,14 +107,17 @@ class BirthdayListScreen extends ConsumerWidget {
     required Birthday birthdayItem,
     required int index,
   }) {
-    final formatDate = DateFormat('Md').format(birthdayItem.birthday);
-    final formatYear = DateFormat('y').format(birthdayItem.birthday);
+    final date = formatDays.format(birthdayItem.birthday);
+    final year = formatYear.format(birthdayItem.birthday);
     final birthdayDate = DateTime(
-        now.year, birthdayItem.birthday.month, birthdayItem.birthday.day);
+      now.year,
+      birthdayItem.birthday.month,
+      birthdayItem.birthday.day,
+    );
     final nowDate = DateTime(now.year, now.month, now.day);
     final age = AgeCalculator.age(birthdayItem.birthday).years;
     final nextAge = AgeCalculator.age(birthdayItem.birthday).years + 1;
-    final date = birthdayDate.difference(nowDate).inDays;
+    final countdown = birthdayDate.difference(nowDate).inDays;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,7 +125,7 @@ class BirthdayListScreen extends ConsumerWidget {
         Visibility(
           visible: !state.isTodayBirthday && index == 0,
           child: Text(
-            '　残り$date日',
+            '　残り$countdown日',
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
@@ -157,14 +152,14 @@ class BirthdayListScreen extends ConsumerWidget {
                         Column(
                           children: [
                             Text(
-                              formatDate,
+                              date,
                               style: const TextStyle(
                                 fontSize: 32,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             Text(
-                              '($formatYear)',
+                              '($year)',
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -269,25 +264,10 @@ class BirthdayListScreen extends ConsumerWidget {
                 onTap: () {
                   notifier.changeIcon(birthdayItem);
                 },
-                child: Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    color: pink,
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white, width: 8),
-                  ),
-                  child: Center(
-                    child: Center(
-                      child: Text(
-                        birthdayItem.icon,
-                        style: const TextStyle(
-                          fontSize: 48,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
+                child: CommonIcon(
+                  icon: birthdayItem.icon,
+                  iconSize: 48,
+                  circleSize: 100,
                 ),
               ),
             ),
@@ -316,34 +296,30 @@ class BirthdayListScreen extends ConsumerWidget {
     );
   }
 
-  ///ダイアログ(新規保存or編集)
   Future<dynamic> _showDialog({
     required BuildContext context,
     required BirthdayStateNotifier notifier,
     required Menu menu,
     Birthday? birthdayItem,
   }) {
+    final formKey = GlobalKey<FormState>();
     final name = TextEditingController();
     final birthday = TextEditingController();
     final gift = TextEditingController();
-    int? id;
-    DateTime? createdAt;
 
     if (menu == Menu.update && birthdayItem != null) {
       name.text = birthdayItem.name;
-      final formatDate = format.format(birthdayItem.birthday);
+      final formatDate = formatDefault.format(birthdayItem.birthday);
       birthday.text = formatDate;
       gift.text = birthdayItem.gift;
-      id = birthdayItem.id;
-      createdAt = birthdayItem.createdAt;
     }
 
     return showDialog<AlertDialog>(
       context: context,
-      builder: (context) {
+      builder: (BuildContext context) {
         return AlertDialog(
           content: Form(
-            key: _formKey,
+            key: formKey,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -367,7 +343,7 @@ class BirthdayListScreen extends ConsumerWidget {
                     hintText: '誕生日',
                   ),
                   onTap: () async {
-                    final date = await showDatePicker(
+                    final datetime = await showDatePicker(
                       context: context,
                       initialDate: menu == Menu.update && birthdayItem != null
                           ? birthdayItem.birthday
@@ -377,9 +353,9 @@ class BirthdayListScreen extends ConsumerWidget {
                       helpText: '日付を選択',
                       confirmText: '決定',
                     );
-                    if (date != null) {
-                      final formatDate = format.format(date);
-                      birthday.text = formatDate;
+                    if (datetime != null) {
+                      final date = formatDefault.format(datetime);
+                      birthday.text = date;
                     }
                   },
                   validator: (value) {
@@ -407,8 +383,8 @@ class BirthdayListScreen extends ConsumerWidget {
                       ? () {
                           ///新規保存
                           final birthdayData =
-                              format.parseStrict(birthday.text);
-                          if (_formKey.currentState!.validate()) {
+                              formatDefault.parseStrict(birthday.text);
+                          if (formKey.currentState!.validate()) {
                             final newBirthday = BirthdaysCompanion(
                               icon: const drift.Value('👩🏻'),
                               name: drift.Value(name.text),
@@ -424,15 +400,16 @@ class BirthdayListScreen extends ConsumerWidget {
                       : () {
                           ///更新
                           final birthdayData =
-                              format.parseStrict(birthday.text);
-                          if (_formKey.currentState!.validate()) {
+                              formatDefault.parseStrict(birthday.text);
+                          if (formKey.currentState!.validate() &&
+                              birthdayItem != null) {
                             final newBirthday = BirthdaysCompanion(
-                              id: drift.Value(id!),
-                              icon: drift.Value(birthdayItem!.icon),
+                              id: drift.Value(birthdayItem.id),
+                              icon: drift.Value(birthdayItem.icon),
                               name: drift.Value(name.text),
                               birthday: drift.Value(birthdayData),
                               gift: drift.Value(gift.text),
-                              createdAt: drift.Value(createdAt!),
+                              createdAt: drift.Value(birthdayItem.createdAt),
                               updateAt: drift.Value(
                                 DateTime.now(),
                               ),
@@ -454,10 +431,4 @@ class BirthdayListScreen extends ConsumerWidget {
       },
     );
   }
-}
-
-enum Menu {
-  write,
-  update,
-  delete,
 }
