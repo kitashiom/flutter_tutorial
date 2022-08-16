@@ -25,7 +25,6 @@ const nextIcon = Icon(
   Icons.navigate_next,
   color: pink,
 );
-
 const redeemIcon = Icon(
   Icons.redeem,
   color: pink,

@@ -7,9 +7,6 @@ import 'package:path_provider/path_provider.dart';
 
 part 'birthday_db.g.dart';
 
-// シングルトン対応にしている(Repositoryページにも変更あり)
-
-// テーブルの作成
 class Birthdays extends Table {
   // 主キー（autoIncrementで自動的にIDを設置する）
   IntColumn get id => integer().autoIncrement()();

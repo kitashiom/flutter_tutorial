@@ -108,7 +108,6 @@ class BirthdayListScreen extends ConsumerWidget {
     required Birthday birthdayItem,
     required int index,
   }) {
-    final iconPosition = (MediaQuery.of(context).size.width - 116) / 2;
     //月日のみ
     final date = formatDays.format(birthdayItem.birthday);
     //年のみ
@@ -123,7 +122,6 @@ class BirthdayListScreen extends ConsumerWidget {
     final age = AgeCalculator.age(birthdayItem.birthday).years;
     //次の年齢
     final nextAge = AgeCalculator.age(birthdayItem.birthday).years + 1;
-    //残日数（今日の日付と年変換した誕生日の差分）
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -247,7 +245,7 @@ class BirthdayListScreen extends ConsumerWidget {
             ),
             Positioned(
               top: -30,
-              left: iconPosition,
+              left: (MediaQuery.of(context).size.width - 116) / 2,
               child: GestureDetector(
                 onTap: () {
                   notifier.changeIcon(birthdayItem);
@@ -264,7 +262,7 @@ class BirthdayListScreen extends ConsumerWidget {
                       child: Positioned(
                         top: -10,
                         child: Transform.rotate(
-                          angle: -35 * pi / 180, //60度
+                          angle: -35 * pi / 180, //-35度
                           child: const Text(
                             '👑',
                             style: TextStyle(fontSize: 32),
@@ -352,9 +350,9 @@ class BirthdayListScreen extends ConsumerWidget {
                       context: context,
                       initialDate: menu == Menu.update && birthdayItem != null
                           ? birthdayItem.birthday
-                          : DateTime.now(),
+                          : now,
                       firstDate: DateTime(1900),
-                      lastDate: DateTime.now(),
+                      lastDate: now,
                       helpText: '日付を選択',
                       confirmText: '決定',
                     );
@@ -386,7 +384,7 @@ class BirthdayListScreen extends ConsumerWidget {
                 ElevatedButton(
                   onPressed: menu == Menu.write
                       ? () {
-                          ///新規保存
+                          //新規保存
                           if (formKey.currentState!.validate()) {
                             final birthdayData =
                                 formatDefault.parseStrict(birthday.text);
@@ -395,15 +393,15 @@ class BirthdayListScreen extends ConsumerWidget {
                               name: drift.Value(name.text),
                               birthday: drift.Value(birthdayData),
                               gift: drift.Value(gift.text),
-                              createdAt: drift.Value(DateTime.now()),
-                              updateAt: drift.Value(DateTime.now()),
+                              createdAt: drift.Value(now),
+                              updateAt: drift.Value(now),
                             );
                             notifier.insertBirthdayData(newBirthday);
                             Navigator.pop(context);
                           }
                         }
                       : () {
-                          ///更新
+                          //更新
                           if (formKey.currentState!.validate() &&
                               birthdayItem != null) {
                             final birthdayData =
@@ -415,9 +413,7 @@ class BirthdayListScreen extends ConsumerWidget {
                               birthday: drift.Value(birthdayData),
                               gift: drift.Value(gift.text),
                               createdAt: drift.Value(birthdayItem.createdAt),
-                              updateAt: drift.Value(
-                                DateTime.now(),
-                              ),
+                              updateAt: drift.Value(now),
                             );
                             notifier.updateBirthdayData(newBirthday);
                             Navigator.pop(context);

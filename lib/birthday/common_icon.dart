@@ -21,7 +21,10 @@ class CommonIcon extends StatelessWidget {
       decoration: BoxDecoration(
         color: pink,
         shape: BoxShape.circle,
-        border: Border.all(color: Colors.white, width: 8),
+        border: Border.all(
+          color: Colors.white,
+          width: 8,
+        ),
       ),
       child: Center(
         child: Text(
