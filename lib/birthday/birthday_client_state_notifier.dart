@@ -112,11 +112,12 @@ class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
   }
 
   int calculateCountdown(DateTime birthday) {
-    //誕生日が未来だったら
-    if (birthday.isBefore(nowDate) == false) {
-      return birthday.difference(nowDate).inDays;
+    //今の年で誕生日が過ぎてたら
+    if (birthday.isBefore(nowDate)) {
+      return birthday.difference(nowDate).inDays + 365;
     } else {
-      return 365 + birthday.difference(nowDate).inDays;
+      //今の年で誕生日が過ぎてなかったら
+      return birthday.difference(nowDate).inDays;
     }
   }
 
