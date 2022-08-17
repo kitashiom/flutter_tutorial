@@ -39,7 +39,7 @@ class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
     //今年誕生日来た人
     final pasts = birthdays.where((e) {
       final date = e.copyWith(birthday: changeBirthYear(e.birthday));
-      return date.birthday.isBefore(now);
+      return date.birthday.isBefore(now) && date.birthday != nowDate;
     }).toList();
 
     birthdayList
