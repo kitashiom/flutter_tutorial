@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:axiaworks_flutter_tutorial/birthday/birthday_client_state_notifier.dart';
+import 'package:axiaworks_flutter_tutorial/birthday/birthday_state_notifier.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/common_icon.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/common_text.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/constants.dart';

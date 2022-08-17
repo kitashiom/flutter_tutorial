@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:age_calculator/age_calculator.dart';
-import 'package:axiaworks_flutter_tutorial/birthday/birthday_client_state_notifier.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/birthday_screen.dart';
+import 'package:axiaworks_flutter_tutorial/birthday/birthday_state_notifier.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/common_icon.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/common_text.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/constants.dart';
@@ -122,6 +122,8 @@ class BirthdayListScreen extends ConsumerWidget {
     final age = AgeCalculator.age(birthdayItem.birthday).years;
     //次の年齢
     final nextAge = AgeCalculator.age(birthdayItem.birthday).years + 1;
+    //残日数
+    final countdown = notifier.calculateCountdown(nowYearBirthday);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,7 +131,7 @@ class BirthdayListScreen extends ConsumerWidget {
         Visibility(
           visible: !state.isTodayBirthday && index == 0,
           child: Text(
-            '　残り${notifier.calculateCountdown(nowYearBirthday)}日',
+            '　残り$countdown日',
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
@@ -247,9 +249,7 @@ class BirthdayListScreen extends ConsumerWidget {
               top: -30,
               left: (MediaQuery.of(context).size.width - 116) / 2,
               child: GestureDetector(
-                onTap: () {
-                  notifier.changeIcon(birthdayItem);
-                },
+                onTap: () => notifier.changeIcon(birthdayItem),
                 child: Stack(
                   children: [
                     CommonIcon(

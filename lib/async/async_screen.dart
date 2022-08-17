@@ -56,9 +56,7 @@ class _AsyncScreen extends State<AsyncScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
         child: const Icon(Icons.add),
-        onPressed: () {
-          _showDialog(context);
-        },
+        onPressed: () => _showDialog(context),
       ),
     );
   }
@@ -79,9 +77,7 @@ class _AsyncScreen extends State<AsyncScreen> {
                     labelText: '名前',
                     hintText: '花子',
                   ),
-                  onChanged: (value) {
-                    _name = value;
-                  },
+                  onChanged: (value) => _name = value,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return '名前を入力してください';
@@ -99,9 +95,7 @@ class _AsyncScreen extends State<AsyncScreen> {
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly
                   ],
-                  onChanged: (value) {
-                    _age = value;
-                  },
+                  onChanged: (value) => _age = value,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return '年齢を入力してください';
@@ -114,9 +108,7 @@ class _AsyncScreen extends State<AsyncScreen> {
                     labelText: '誕生日',
                     hintText: '1/1',
                   ),
-                  onChanged: (value) {
-                    _birthday = value;
-                  },
+                  onChanged: (value) => _birthday = value,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return '誕生日を入力してください';
@@ -128,9 +120,7 @@ class _AsyncScreen extends State<AsyncScreen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+                      onPressed: () => Navigator.pop(context),
                       child: const Text('キャンセル'),
                     ),
                     const SizedBox(width: 8),
