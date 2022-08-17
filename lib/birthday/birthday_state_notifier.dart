@@ -23,76 +23,56 @@ class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
 
     final birthdays = await _repository.getAllBirthdayData();
     final birthdayList = <Birthday>[];
-    final tempList = <Birthday>[];
-    var isBirthday = false;
 
-    /// 誕生年を今の年に変換↓
-    /// リスト追加・日付順に並び替え↓
-    /// 1.今日誕生日 2.今年の誕生日が過ぎてない人 3.今年の誕生日が過ぎた人の順にリストに追加
-    for (final item in birthdays) {
-      final birthday = item.birthday;
-      // 誕生年を現在の年に変換
-      final birthdayItem = item.copyWith(
-        birthday: DateTime(
-          now.year,
-          birthday.month,
-          birthday.day,
-        ),
-      );
-      // 日付順に並び替えるために一時的にリスト（tempList）に追加
-      tempList
-        ..add(birthdayItem)
-        ..sort((a, b) => a.birthday.compareTo(b.birthday));
-    }
-    for (final item in tempList) {
-      //1.今日誕生日の人をbirthdayListに追加
-      if (item.birthday == nowDate) {
-        isBirthday = true;
-        //誕生年を元の年に戻す
-        final item1 = birthdays.firstWhere((element) => element.id == item.id);
-        birthdayList.add(item.copyWith(birthday: item1.birthday));
-      }
-    }
-    for (final item in tempList) {
-      //2.日付が今より過去でなければ、birthdayListに追加
-      if (item.birthday.isBefore(now) == false) {
-        //誕生年を元の年に戻す
-        final item1 = birthdays.firstWhere((element) => element.id == item.id);
-        birthdayList.add(item.copyWith(birthday: item1.birthday));
-      }
-    }
-    for (final item in tempList) {
-      //3.日付が今日でないかつ、今日より過去だったら、birthdayListに追加
-      if (item.birthday != nowDate && item.birthday.isBefore(now) == true) {
-        //誕生年を元の年に戻す
-        final item1 = birthdays.firstWhere((element) => element.id == item.id);
-        birthdayList.add(item.copyWith(birthday: item1.birthday));
-      }
-    }
+    //今日誕生日の人
+    final todays = birthdays.where((e) {
+      final date = e.copyWith(birthday: changeBirthYear(e.birthday));
+      return date.birthday == nowDate;
+    }).toList();
 
-    //stateの変更
-    if (birthdays.isNotEmpty && isBirthday == true) {
-      //アイテムがある・今日誕生日の人がいる場合
-      state = state.copyWith(
-        isLoading: false,
-        isReadyData: true,
-        isTodayBirthday: isBirthday,
-        birthdayItems: birthdayList,
-      );
-    } else if (birthdays.isNotEmpty && isBirthday == false) {
-      //アイテムがある・今日誕生日の人がいない場合
-      state = state.copyWith(
-        isLoading: false,
-        isReadyData: true,
-        birthdayItems: birthdayList,
-      );
-    } else {
-      state = state.copyWith(
-        isLoading: false,
-        isReadyData: false,
-        birthdayItems: [],
-      );
+    //今年誕生日来てない人
+    final futures = birthdays.where((e) {
+      final date = e.copyWith(birthday: changeBirthYear(e.birthday));
+      return !date.birthday.isBefore(now);
+    }).toList();
+
+    //今年誕生日来た人
+    final pasts = birthdays.where((e) {
+      final date = e.copyWith(birthday: changeBirthYear(e.birthday));
+      return date.birthday.isBefore(now);
+    }).toList();
+
+    birthdayList
+      ..addAll(sortBirthday(todays))
+      ..addAll(sortBirthday(futures))
+      ..addAll(sortBirthday(pasts));
+
+    state = state.copyWith(
+      isLoading: false,
+      isReadyData: true,
+      isTodayBirthday: isBirthday(todays),
+      birthdayItems: birthdayList,
+    );
+  }
+
+  bool isBirthday(List<Birthday> todays) {
+    if (todays.isEmpty) {
+      return false;
     }
+    return true;
+  }
+
+  DateTime changeBirthYear(DateTime birthday) {
+    return DateTime(now.year, birthday.month, birthday.day);
+  }
+
+  List<Birthday> sortBirthday(List<Birthday> birthdays) {
+    birthdays.sort((a, b) {
+      final aa = a.copyWith(birthday: changeBirthYear(a.birthday));
+      final bb = b.copyWith(birthday: changeBirthYear(b.birthday));
+      return aa.birthday.compareTo(bb.birthday);
+    });
+    return birthdays;
   }
 
   Future<void> insertBirthdayData(BirthdaysCompanion birthday) async {
@@ -111,7 +91,6 @@ class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
     await getBirthdayData();
   }
 
-  //残日数計算
   int calculateCountdown(DateTime birthday) {
     //今年、誕生日が過ぎてる場合
     if (birthday.isBefore(nowDate)) {
