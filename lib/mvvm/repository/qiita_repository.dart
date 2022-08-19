@@ -6,7 +6,7 @@ final qiitaRepositoryProvider =
     Provider<QiitaRepository>((_) => QiitaRepository());
 
 class QiitaRepository {
-  final QiitaApiClient _api = QiitaApiClient.create();
+  QiitaApiClient _api = QiitaApiClient.create();
 
   Future<List<QiitaItem>> fetchQiitaItems(String tag) async {
     return _api.fetchQiitaItems(tag);

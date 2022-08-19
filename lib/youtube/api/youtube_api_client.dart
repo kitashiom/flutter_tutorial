@@ -5,7 +5,7 @@ import 'package:retrofit/retrofit.dart';
 
 part 'youtube_api_client.g.dart';
 
-@RestApi(baseUrl: 'https://flutter-tutorial-3cc9b.web.app/api/v1/')
+@RestApi(baseUrl: "https://flutter-tutorial-3cc9b.web.app/api/v1/")
 abstract class YoutubeApiClient {
   factory YoutubeApiClient(Dio dio, {String baseUrl}) = _YoutubeApiClient;
 
@@ -15,6 +15,6 @@ abstract class YoutubeApiClient {
     return YoutubeApiClient(dio);
   }
 
-  @GET('/youtube/youtube.json')
+  @GET("/youtube/youtube.json")
   Future<List<YoutubeItem>> fetchYoutubeItems();
 }

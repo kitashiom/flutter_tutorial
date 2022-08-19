@@ -22,10 +22,7 @@ class ResidenceClientStateNotifier extends StateNotifier<ResidenceClientState> {
 
     if (residenceItems.isNotEmpty) {
       state = state.copyWith(
-        isLoading: false,
-        isReadyData: true,
-        residenceItems: residenceItems,
-      );
+          isLoading: false, isReadyData: true, residenceItems: residenceItems);
     } else {
       state = state.copyWith(
         isLoading: false,

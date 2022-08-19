@@ -21,10 +21,7 @@ class MercariClientStateNotifier extends StateNotifier<MercariClientState> {
 
     if (mercariItems.isNotEmpty) {
       state = state.copyWith(
-        isLoading: false,
-        isReadyData: true,
-        mercariItems: mercariItems,
-      );
+          isLoading: false, isReadyData: true, mercariItems: mercariItems);
     } else {
       state = state.copyWith(
         isLoading: false,
