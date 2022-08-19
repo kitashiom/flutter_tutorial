@@ -5,7 +5,7 @@ import 'package:retrofit/retrofit.dart';
 
 part 'residence_api_client.g.dart';
 
-@RestApi(baseUrl: "https://flutter-tutorial-3cc9b.web.app/api/v1/")
+@RestApi(baseUrl: 'https://flutter-tutorial-3cc9b.web.app/api/v1/')
 abstract class ResidenceApiClient {
   factory ResidenceApiClient(Dio dio, {String baseUrl}) = _ResidenceApiClient;
 
@@ -15,6 +15,6 @@ abstract class ResidenceApiClient {
     return ResidenceApiClient(dio);
   }
 
-  @GET("/residence/residence.json")
+  @GET('/residence/residence.json')
   Future<List<ResidenceItem>> fetchResidenceItems();
 }

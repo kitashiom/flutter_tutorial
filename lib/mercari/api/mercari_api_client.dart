@@ -5,7 +5,7 @@ import 'package:retrofit/retrofit.dart';
 
 part 'mercari_api_client.g.dart';
 
-@RestApi(baseUrl: "https://flutter-tutorial-3cc9b.web.app/api/v1/")
+@RestApi(baseUrl: 'https://flutter-tutorial-3cc9b.web.app/api/v1/')
 abstract class MercariApiClient {
   factory MercariApiClient(Dio dio, {String baseUrl}) = _MercariApiClient;
 
@@ -15,6 +15,6 @@ abstract class MercariApiClient {
     return MercariApiClient(dio);
   }
 
-  @GET("/mercari/mercari.json")
+  @GET('/mercari/mercari.json')
   Future<List<MercariItem>> fetchMercariItems();
 }
