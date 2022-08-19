@@ -56,9 +56,7 @@ class _AsyncScreen extends State<AsyncScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
         child: const Icon(Icons.add),
-        onPressed: () {
-          _showDialog(context);
-        },
+        onPressed: () => _showDialog(context),
       ),
     );
   }

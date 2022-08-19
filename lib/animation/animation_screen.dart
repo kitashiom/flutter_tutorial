@@ -39,7 +39,11 @@ class LogoWidget extends StatelessWidget {
 }
 
 class GrowTransition extends StatelessWidget {
-  const GrowTransition({required this.child, required this.animation, super.key});
+  const GrowTransition({
+    required this.child,
+    required this.animation,
+    super.key,
+  });
 
   final Widget child;
   final Animation<double> animation;
@@ -49,7 +53,7 @@ class GrowTransition extends StatelessWidget {
     return Center(
       child: AnimatedBuilder(
         animation: animation,
-        builder: (context,child){
+        builder: (context, child) {
           return SizedBox(
             height: animation.value,
             width: animation.value,
@@ -63,20 +67,24 @@ class GrowTransition extends StatelessWidget {
 }
 
 class AnimationScreen extends StatefulWidget {
-  const AnimationScreen({Key? key,}) : super(key: key);
+  const AnimationScreen({
+    super.key,
+  });
 
   @override
   AnimationScreenState createState() => AnimationScreenState();
 }
 
-class AnimationScreenState extends State<AnimationScreen> with SingleTickerProviderStateMixin {
+class AnimationScreenState extends State<AnimationScreen>
+    with SingleTickerProviderStateMixin {
   late Animation<double> animation;
   late AnimationController controller;
 
   @override
   void initState() {
     super.initState();
-    controller = AnimationController(duration: const Duration(seconds: 2), vsync: this);
+    controller =
+        AnimationController(duration: const Duration(seconds: 2), vsync: this);
     animation = CurvedAnimation(parent: controller, curve: Curves.easeIn)
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
