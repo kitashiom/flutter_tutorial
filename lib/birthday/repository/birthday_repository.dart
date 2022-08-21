@@ -6,7 +6,8 @@ final birthdayRepository = Provider(
 );
 
 class BirthdayRepository {
-  MyDatabase database = MyDatabase();
+  MyDatabase database = MyDatabase.getInstance();
+
   Future<List<Birthday>> getAllBirthdayData() async {
     return database.readAllBirthdayData;
   }
