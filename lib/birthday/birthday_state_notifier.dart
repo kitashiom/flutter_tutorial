@@ -8,15 +8,17 @@ import 'package:share_plus/share_plus.dart';
 
 final birthdayStateNotifierProvider =
     StateNotifierProvider<BirthdayStateNotifier, BirthdayClientState>(
-  (ref) => BirthdayStateNotifier(),
+  (ref) => BirthdayStateNotifier(ref.read),
 );
 
 class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
-  BirthdayStateNotifier() : super(const BirthdayClientState()) {
+  BirthdayStateNotifier(this.read) : super(const BirthdayClientState()) {
     getBirthdayData();
   }
 
-  final _repository = BirthdayRepository();
+  //Provider経由で取得
+  final Reader read;
+  BirthdayRepository get _repository => read(birthdayRepository);
 
   Future<void> getBirthdayData() async {
     state = state.copyWith(isLoading: true);
