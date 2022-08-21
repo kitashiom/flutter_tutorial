@@ -13,7 +13,7 @@ void main() => runApp(
     );
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +29,8 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +68,7 @@ class MyHomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (context) => YoutubeScreen(),
+                    builder: (context) => const YoutubeScreen(),
                   ),
                 );
               },
@@ -79,7 +79,7 @@ class MyHomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (context) => ResidenceScreen(),
+                    builder: (context) => const ResidenceScreen(),
                   ),
                 );
               },
@@ -90,7 +90,7 @@ class MyHomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (context) => MercariScreen(),
+                    builder: (context) => const MercariScreen(),
                   ),
                 );
               },

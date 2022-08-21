@@ -21,7 +21,10 @@ class YoutubeClientStateNotifier extends StateNotifier<YoutubeClientState> {
 
     if (youtubeItems.isNotEmpty) {
       state = state.copyWith(
-          isLoading: false, isReadyData: true, youtubeItems: youtubeItems);
+        isLoading: false,
+        isReadyData: true,
+        youtubeItems: youtubeItems,
+      );
     } else {
       state = state.copyWith(
         isLoading: false,

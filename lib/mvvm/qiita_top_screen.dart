@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class QiitaTopScreen extends ConsumerWidget {
-  const QiitaTopScreen({Key? key}) : super(key: key);
+  const QiitaTopScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,9 +33,9 @@ class QiitaTopScreen extends ConsumerWidget {
             ),
             Visibility(
               visible: state.isLoading,
-              child: Container(
-                color: const Color(0x88000000),
-                child: const Center(
+              child: const ColoredBox(
+                color: Color(0x88000000),
+                child: Center(
                   child: CircularProgressIndicator(),
                 ),
               ),
