@@ -49,7 +49,7 @@ class BirthdayScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            _mainContents(),
+            _buildMainContents(),
             Form(
               key: formKey,
               child: TextFormField(
@@ -94,7 +94,7 @@ class BirthdayScreen extends ConsumerWidget {
     );
   }
 
-  Widget _mainContents() {
+  Widget _buildMainContents() {
     final birthday = formatDays.format(birthdayItem.birthday);
     final year = formatYear.format(birthdayItem.birthday);
     final nowY = formatYear.format(now);
