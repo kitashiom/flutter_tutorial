@@ -1,18 +1,17 @@
 import 'package:axiaworks_flutter_tutorial/birthday/constants.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/db/birthday_db.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/repository/birthday_repository.dart';
-import 'package:axiaworks_flutter_tutorial/birthday/state/birthday_client_state.dart';
+import 'package:axiaworks_flutter_tutorial/birthday/state/birthday_list_state.dart';
 import 'package:drift/drift.dart' as drift;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:share_plus/share_plus.dart';
 
-final birthdayStateNotifierProvider =
-    StateNotifierProvider<BirthdayStateNotifier, BirthdayClientState>(
-  (ref) => BirthdayStateNotifier(ref.read),
+final birthdayListStateNotifierProvider =
+    StateNotifierProvider<BirthdayListStateNotifier, BirthdayListState>(
+  (ref) => BirthdayListStateNotifier(ref.read),
 );
 
-class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
-  BirthdayStateNotifier(this.read) : super(const BirthdayClientState()) {
+class BirthdayListStateNotifier extends StateNotifier<BirthdayListState> {
+  BirthdayListStateNotifier(this.read) : super(const BirthdayListState()) {
     getBirthdayData();
   }
 
@@ -139,9 +138,9 @@ class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
     await updateBirthdayData(newBirthday);
   }
 
-  Future<void> shareMessage(String text) async {
-    await Share.share(
-      text,
+  Future<void> setCurrentBirthday(int id) async {
+    state = state.copyWith(
+      currentId: id,
     );
   }
 }

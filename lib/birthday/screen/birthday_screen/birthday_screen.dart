@@ -1,41 +1,48 @@
 import 'dart:math';
 
-import 'package:axiaworks_flutter_tutorial/birthday/birthday_state_notifier.dart';
-import 'package:axiaworks_flutter_tutorial/birthday/common_icon.dart';
-import 'package:axiaworks_flutter_tutorial/birthday/common_text.dart';
+import 'package:age_calculator/age_calculator.dart';
+import 'package:axiaworks_flutter_tutorial/birthday/commons/common_icon.dart';
+import 'package:axiaworks_flutter_tutorial/birthday/commons/common_text.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/constants.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/db/birthday_db.dart';
+import 'package:axiaworks_flutter_tutorial/birthday/screen/birthday_screen/birthday_state_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BirthdayScreen extends ConsumerWidget {
-  const BirthdayScreen(this.birthdayItem, this.age, {super.key});
-
-  final Birthday birthdayItem;
-  final int age;
+  const BirthdayScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(birthdayStateNotifierProvider);
     final notifier = ref.watch(birthdayStateNotifierProvider.notifier);
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: green,
         elevation: 0,
       ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        padding: const EdgeInsets.all(8),
-        color: green,
-        child: SingleChildScrollView(
-          child: _buildCard(notifier: notifier),
-        ),
-      ),
+      body: state.currentItem == null
+          ? _buildEmptyBody()
+          : Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              padding: const EdgeInsets.all(8),
+              color: green,
+              child: SingleChildScrollView(
+                child: _buildCard(item: state.currentItem!, notifier: notifier),
+              ),
+            ),
+    );
+  }
+
+  Widget _buildEmptyBody() {
+    return const Center(
+      child: CircularProgressIndicator(),
     );
   }
 
   Widget _buildCard({
+    required Birthday item,
     required BirthdayStateNotifier notifier,
   }) {
     final formKey = GlobalKey<FormState>();
@@ -49,14 +56,14 @@ class BirthdayScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            _buildMainContents(),
+            _buildMainContents(item: item),
             Form(
               key: formKey,
               child: TextFormField(
                 controller: message,
                 decoration: InputDecoration(
                   labelText: 'メッセージを入力してください',
-                  hintText: '${birthdayItem.name}へ\nお誕生日おめでとう！',
+                  hintText: '${item.name}へ\nお誕生日おめでとう！',
                 ),
                 maxLines: 3,
                 keyboardType: TextInputType.multiline,
@@ -83,7 +90,7 @@ class BirthdayScreen extends ConsumerWidget {
                 ),
               ),
               child: Text(
-                '${birthdayItem.name}に\nメッセージを送る',
+                '${item.name}に\nメッセージを送る',
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
@@ -94,10 +101,11 @@ class BirthdayScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildMainContents() {
-    final birthday = formatDays.format(birthdayItem.birthday);
-    final year = formatYear.format(birthdayItem.birthday);
+  Widget _buildMainContents({required Birthday item}) {
+    final birthday = formatDays.format(item.birthday);
+    final year = formatYear.format(item.birthday);
     final nowY = formatYear.format(now);
+    final age = AgeCalculator.age(item.birthday).years;
 
     return Column(
       children: [
@@ -115,7 +123,7 @@ class BirthdayScreen extends ConsumerWidget {
           textSize: 24,
         ),
         spaceH8,
-        CommonText(text: birthdayItem.name, textSize: 24),
+        CommonText(text: item.name, textSize: 24),
         spaceH24,
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -127,7 +135,7 @@ class BirthdayScreen extends ConsumerWidget {
             Stack(
               children: [
                 CommonIcon(
-                  icon: birthdayItem.icon,
+                  icon: item.icon,
                   iconSize: 72,
                   circleSize: 160,
                 ),
@@ -167,7 +175,7 @@ class BirthdayScreen extends ConsumerWidget {
           children: [
             redeemIcon,
             spaceW8,
-            CommonText(text: birthdayItem.gift, textSize: 16),
+            CommonText(text: item.gift, textSize: 16),
           ],
         ),
       ],

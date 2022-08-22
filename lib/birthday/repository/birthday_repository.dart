@@ -12,6 +12,10 @@ class BirthdayRepository {
     return database.readAllBirthdayData;
   }
 
+  Future<Birthday> getCurrentBirthdayData(int id) async {
+    return database.readBirthdayData(id);
+  }
+
   Future<void> insertBirthdayData(BirthdaysCompanion birthday) async {
     return database.writeBirthday(birthday);
   }

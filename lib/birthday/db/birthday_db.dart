@@ -55,6 +55,9 @@ class MyDatabase extends _$MyDatabase {
 
   Future<List<Birthday>> get readAllBirthdayData => select(birthdays).get();
 
+  Future<Birthday> readBirthdayData(int id) =>
+      (select(birthdays)..where((t) => t.id.equals(id))).getSingle();
+
   Future<void> writeBirthday(BirthdaysCompanion birthday) =>
       into(birthdays).insert(birthday);
 

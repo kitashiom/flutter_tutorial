@@ -1,14 +1,14 @@
 import 'dart:math';
 
 import 'package:age_calculator/age_calculator.dart';
-import 'package:axiaworks_flutter_tutorial/birthday/birthday_screen.dart';
-import 'package:axiaworks_flutter_tutorial/birthday/birthday_state_notifier.dart';
-import 'package:axiaworks_flutter_tutorial/birthday/common_icon.dart';
-import 'package:axiaworks_flutter_tutorial/birthday/common_text.dart';
+import 'package:axiaworks_flutter_tutorial/birthday/commons/common_icon.dart';
+import 'package:axiaworks_flutter_tutorial/birthday/commons/common_text.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/constants.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/db/birthday_db.dart';
 import 'package:axiaworks_flutter_tutorial/birthday/menu_enum.dart';
-import 'package:axiaworks_flutter_tutorial/birthday/state/birthday_client_state.dart';
+import 'package:axiaworks_flutter_tutorial/birthday/screen/birthday_list/birthday_list_state_notifier.dart';
+import 'package:axiaworks_flutter_tutorial/birthday/screen/birthday_screen/birthday_screen.dart';
+import 'package:axiaworks_flutter_tutorial/birthday/state/birthday_list_state.dart';
 import 'package:drift/drift.dart' as drift;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,8 +18,8 @@ class BirthdayListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(birthdayStateNotifierProvider);
-    final notifier = ref.watch(birthdayStateNotifierProvider.notifier);
+    final state = ref.watch(birthdayListStateNotifierProvider);
+    final notifier = ref.watch(birthdayListStateNotifierProvider.notifier);
 
     return Scaffold(
       appBar: _buildAppBar(state: state),
@@ -43,7 +43,7 @@ class BirthdayListScreen extends ConsumerWidget {
   }
 
   AppBar _buildAppBar({
-    required BirthdayClientState state,
+    required BirthdayListState state,
   }) {
     return AppBar(
       title: CommonText(
@@ -70,8 +70,8 @@ class BirthdayListScreen extends ConsumerWidget {
 
   Widget _buildBody({
     required BuildContext context,
-    required BirthdayClientState state,
-    required BirthdayStateNotifier notifier,
+    required BirthdayListState state,
+    required BirthdayListStateNotifier notifier,
   }) {
     return SingleChildScrollView(
       child: Column(
@@ -103,8 +103,8 @@ class BirthdayListScreen extends ConsumerWidget {
 
   Widget _birthdayListCard({
     required BuildContext context,
-    required BirthdayClientState state,
-    required BirthdayStateNotifier notifier,
+    required BirthdayListState state,
+    required BirthdayListStateNotifier notifier,
     required Birthday birthdayItem,
     required int index,
   }) {
@@ -205,10 +205,15 @@ class BirthdayListScreen extends ConsumerWidget {
                       children: [
                         nextIcon,
                         spaceW8,
-                        CommonText(
-                          text: '$age歳 → $nextAge歳',
-                          textSize: 16,
-                        ),
+                        nowYearBirthday == nowDate
+                            ? CommonText(
+                                text: '$age歳',
+                                textSize: 16,
+                              )
+                            : CommonText(
+                                text: '$age歳 → $nextAge歳',
+                                textSize: 16,
+                              ),
                       ],
                     ),
                     Row(
@@ -225,12 +230,12 @@ class BirthdayListScreen extends ConsumerWidget {
                       visible: nowYearBirthday == nowDate,
                       child: Center(
                         child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
+                          onPressed: () async {
+                            await notifier.setCurrentBirthday(birthdayItem.id);
+                            await Navigator.push<void>(
                               context,
-                              MaterialPageRoute<void>(
-                                builder: (context) =>
-                                    BirthdayScreen(birthdayItem, nextAge),
+                              MaterialPageRoute(
+                                builder: (context) => BirthdayScreen(),
                               ),
                             );
                           },
@@ -282,7 +287,7 @@ class BirthdayListScreen extends ConsumerWidget {
 
   FloatingActionButton _buildFloatingActionButton({
     required BuildContext context,
-    required BirthdayStateNotifier notifier,
+    required BirthdayListStateNotifier notifier,
   }) {
     return FloatingActionButton(
       backgroundColor: pink,
@@ -301,7 +306,7 @@ class BirthdayListScreen extends ConsumerWidget {
 
   Future<dynamic> _showDialog({
     required BuildContext context,
-    required BirthdayStateNotifier notifier,
+    required BirthdayListStateNotifier notifier,
     required Menu menu,
     Birthday? birthdayItem,
   }) {
