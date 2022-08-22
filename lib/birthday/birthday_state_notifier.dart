@@ -51,7 +51,6 @@ class BirthdayStateNotifier extends StateNotifier<BirthdayClientState> {
 
     state = state.copyWith(
       isLoading: false,
-      isReadyData: true,
       isTodayBirthday: isBirthday(todays),
       birthdayItems: birthdayList,
     );

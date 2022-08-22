@@ -27,7 +27,7 @@ class BirthdayListScreen extends ConsumerWidget {
         height: MediaQuery.of(context).size.height,
         padding: const EdgeInsets.all(8),
         color: green,
-        child: !state.isReadyData
+        child: state.birthdayItems.isEmpty
             ? _buildEmptyBody()
             : _buildBody(
                 context: context,
